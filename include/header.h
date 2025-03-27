@@ -30,19 +30,20 @@ typedef struct sInfos tInfos;
 int			getLen(const char* str);
 void		writeStr(const char* str, const int fd);
 bool		isSame(const char* str1, const char* str2);
+int			getRandomNumber(void);
 
 void		endError(tInfos* infos, const int value);
 void		endFree(tInfos* infos);
 
 void		displayGame(tInfos* infos);
-
+void		sortEvent(tInfos* infos, SDL_Event* event);
 void		initializeGame(tInfos* infos);
 void		startGame(tInfos* infos);
 
-int			getRandomNumber(void);
-
 bool		isHelp(const char** argv);
 void		help(void);
+
+bool		validateArguments(const int argc, const char** argv);
 
 int			main(const int argc, const char** argv);
 

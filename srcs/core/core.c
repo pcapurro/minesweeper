@@ -6,8 +6,8 @@ void	initializeGame(tInfos* infos)
 		endError(infos, 1);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-	infos->mainWindow = SDL_CreateWindow("minesweeper", \
-		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, infos->width, infos->height, 0);
+	infos->mainWindow = SDL_CreateWindow("minesweeper", SDL_WINDOWPOS_CENTERED, \
+		SDL_WINDOWPOS_CENTERED, infos->width, infos->height, 0);
 	if (infos->mainWindow == NULL)
 		endError(infos, 1);
 
@@ -42,6 +42,8 @@ void	startGame(tInfos* infos)
 
 			if (x > infos->width || y > infos->height || x < 0 || y < 0)
 				continue ;
+
+			sortEvent(infos, &event);
 
 			displayGame(infos);
 
