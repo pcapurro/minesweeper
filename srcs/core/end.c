@@ -12,6 +12,17 @@ void	endError(tInfos* infos, const int value)
 
 void	endFree(tInfos* infos)
 {
+	if (infos->map != NULL)
+	{
+		for (int i = 0; i != infos->height; i++)
+		{
+			if (infos->map[i] != NULL)
+				free(infos->map[i]), infos->map[i] = NULL;
+		}
+		free(infos->map);
+		infos->map = NULL;
+	}
+
 	if (infos->mainRenderer != NULL)
 		SDL_DestroyRenderer(infos->mainRenderer);
 

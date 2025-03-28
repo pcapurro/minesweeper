@@ -39,10 +39,9 @@ int	main(const int argc, const char** argv)
 	else
 		infos.width = 21, infos.height = 21;
 
-	infos.width = (infos.width + 1) * 30;
-	infos.height = (infos.height + 2) * 30;
+	initializeMap(&infos);
 
-	initializeGame(&infos);
+	initializeDisplay(&infos);
 
 	startGame(&infos);
 

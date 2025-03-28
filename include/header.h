@@ -22,7 +22,7 @@ struct sInfos
 	SDL_Cursor		*normalCursor;
 	SDL_Cursor		*interactCursor;
 
-	char*			map;
+	char**			map;
 };
 
 typedef struct sInfos tInfos;
@@ -37,8 +37,10 @@ void		endFree(tInfos* infos);
 
 void		displayGame(tInfos* infos);
 void		sortEvent(tInfos* infos, SDL_Event* event);
-void		initializeGame(tInfos* infos);
 void		startGame(tInfos* infos);
+
+void		initializeDisplay(tInfos* infos);
+void		initializeMap(tInfos* infos);
 
 bool		isHelp(const char** argv);
 void		help(void);
