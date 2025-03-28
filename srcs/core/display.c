@@ -47,4 +47,8 @@ void	displayGame(tInfos* infos)
 	displayMap(infos);
 
 	SDL_RenderPresent(infos->mainRenderer);
+
+	// for (int i = 0; infos->map[i] != NULL; i++)
+	// 	printf("'%s'\n", infos->map[i]);
+	// printf("\n");
 }
