@@ -23,6 +23,11 @@ struct sInfos
 	SDL_Cursor		*interactCursor;
 
 	char**			map;
+
+	int				bombs;
+	int				flags;
+
+	int				theme;
 };
 
 typedef struct sInfos tInfos;

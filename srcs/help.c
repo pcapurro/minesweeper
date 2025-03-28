@@ -2,7 +2,7 @@
 
 void	help(void)
 {
-	writeStr("Usage: './minesweeper [map width] [map height]'\n", 1);
+	writeStr("Usage: './minesweeper [map width] [map height] [bomb percentage]'\n", 1);
 	writeStr("Map values must be set from 16 to 32.\n", 1);
 }
 

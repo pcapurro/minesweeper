@@ -16,9 +16,12 @@ void	displayMap(tInfos* infos)
 
 			obj.x = 15 + (k * obj.w);
 
-			SDL_SetRenderDrawColor(infos->mainRenderer, getRandomNumber(), getRandomNumber(), getRandomNumber(), 255);
-			SDL_RenderFillRect(infos->mainRenderer, &obj);
+			if (infos->theme == 1)
+				SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+			else
+				SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
 
+			SDL_RenderFillRect(infos->mainRenderer, &obj);
 			SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
 		}
 		obj.y = 60 + (i * obj.h);
@@ -29,10 +32,14 @@ void	displayGame(tInfos* infos)
 {
 	SDL_Rect	obj;
 
-	obj.w = infos->width;
-	obj.h = infos->height;
+	obj.w = (infos->width + 1) * 30;
+	obj.h = (infos->height + 2) * 30;
 
-	SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+	if (infos->theme == 1)
+		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
+	else
+		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+
 	SDL_RenderFillRect(infos->mainRenderer, &obj);
 
 	SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);

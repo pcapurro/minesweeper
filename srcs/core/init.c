@@ -1,5 +1,18 @@
 #include "header.h"
 
+void	generateMap(tInfos* infos)
+{
+	infos->bombs = (infos->bombs * (infos->width * infos->height)) / 100;
+
+	for (int i = infos->bombs; i != -1; i--)
+	{
+		int value1 = getRandomNumber() % infos->height;
+		int value2 = getRandomNumber() % infos->width;
+
+		infos->map[value1][value2] = '1';
+	}
+}
+
 void	initializeMap(tInfos* infos)
 {
 	infos->map = malloc(sizeof(char*) * (infos->height + 1));
@@ -29,6 +42,8 @@ void	initializeMap(tInfos* infos)
 			infos->map[i][infos->width] = '\0';
 		}
 	}
+
+	generateMap(infos);
 }
 
 void	initializeDisplay(tInfos* infos)
