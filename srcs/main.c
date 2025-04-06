@@ -7,10 +7,18 @@ void	setToDefault(tInfos* infos)
 
 	infos->bombs = 21;
 
-	infos->theme = 0;
-
 	infos->mainWindow = NULL;
 	infos->mainRenderer = NULL;
+
+	infos->one = NULL;
+	infos->two = NULL;
+	infos->three = NULL;
+	infos->four = NULL;
+
+	infos->five = NULL;
+	infos->six = NULL;
+	infos->seven = NULL;
+	infos->eight = NULL;
 
 	infos->normalCursor = NULL;
 	infos->interactCursor = NULL;

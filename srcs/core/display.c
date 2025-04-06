@@ -1,5 +1,28 @@
 #include "header.h"
 
+SDL_Texture*	getTexture(tInfos* infos, const int value)
+{
+	if (value == 1)
+		return (infos->one);
+	if (value == 2)
+		return (infos->two);
+	if (value == 3)
+		return (infos->three);
+	if (value == 4)
+		return (infos->four);
+
+	if (value == 5)
+		return (infos->five);
+	if (value == 6)
+		return (infos->six);
+	if (value == 7)
+		return (infos->seven);
+	if (value == 8)
+		return (infos->eight);
+
+	return (NULL);
+}
+
 void	displayMap(tInfos* infos)
 {
 	SDL_Rect	obj;
@@ -16,15 +39,14 @@ void	displayMap(tInfos* infos)
 
 			obj.x = 21 + (k * obj.w);
 
-			// SDL_SetRenderDrawColor(infos->mainRenderer, getRandomNumber() % 256, getRandomNumber() % 256, getRandomNumber() % 256, 255);
-
-			if (infos->theme == 1)
-				SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+			if (infos->map[i][k].value != -1)
+				SDL_RenderCopy(infos->mainRenderer, getTexture(infos, infos->map[i][k].value), NULL, &obj);
 			else
-				SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
-
-			SDL_RenderFillRect(infos->mainRenderer, &obj);
-			SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
+			{
+				SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+				SDL_RenderFillRect(infos->mainRenderer, &obj);
+				SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
+			}
 		}
 		obj.y = 84 + (i * obj.h);
 	}
@@ -37,10 +59,7 @@ void	displayGame(tInfos* infos)
 	obj.w = (infos->width + 1) * 42;
 	obj.h = (infos->height + 2) * 42;
 
-	if (infos->theme == 1)
-		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
-	else
-		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
 
 	SDL_RenderFillRect(infos->mainRenderer, &obj);
 
@@ -49,8 +68,4 @@ void	displayGame(tInfos* infos)
 	displayMap(infos);
 
 	SDL_RenderPresent(infos->mainRenderer);
-
-	// for (int i = 0; infos->map[i] != NULL; i++)
-	// 	printf("'%s'\n", infos->map[i]);
-	// printf("\n");
 }

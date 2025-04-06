@@ -16,16 +16,16 @@ int	getBombsNumber(tInfos* infos, const int i, const int k)
 
 	if (i != 0 && k != 0 && infos->map[i - 1][k - 1].bomb == true)
 		value++;
-	if (i != 0 && infos->map[i - 1][k + 1].bomb == true)
+	if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].bomb == true)
 		value++;
 
 	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].bomb == true)
 		value++;
-	if (infos->map[i + 1] != NULL && infos->map[i + 1][k + 1].bomb == true)
+	if (infos->map[i + 1] != NULL && k + 1 != infos->width && infos->map[i + 1][k + 1].bomb == true)
 		value++;
 	
 	if (value == 0)
-		return (-16);
+		return (-1);
 
 	return (value);
 }
@@ -53,7 +53,7 @@ void	generateMap(tInfos* infos)
 		for (int k = 0; k != infos->width; k++)
 		{
 			if (infos->map[i][k].bomb != true)
-				infos->map[i][k].value = getBombsNumber(infos, i, k) + 48;
+				infos->map[i][k].value = getBombsNumber(infos, i, k);
 		}
 	}
 }
@@ -83,11 +83,49 @@ void	initializeMap(tInfos* infos)
 		else
 		{
 			for (int k = 0; k != infos->width; k++)
+			{
+				infos->map[i][k].discovered = false;
+				infos->map[i][k].flag = false;
+
+				infos->map[i][k].value = -1;
 				infos->map[i][k].bomb = false;
+			}
 		}
 	}
 
 	generateMap(infos);
+}
+
+SDL_Texture* loadTexture(tInfos* infos, const char* path)
+{
+	SDL_Surface*	surface;
+	SDL_Texture*	texture;
+
+	surface = SDL_LoadBMP(path);
+	if (surface == NULL)
+		endError(infos, 1);
+	else
+	{
+		texture = SDL_CreateTextureFromSurface(infos->mainRenderer, surface);
+		SDL_FreeSurface(surface);
+		if (texture == NULL)
+			endError(infos, 1);
+	}
+
+	return (texture);
+}
+
+void	initializeTextures(tInfos* infos)
+{
+	infos->one = loadTexture(infos, "./materials/1.bmp");
+	infos->two = loadTexture(infos, "./materials/2.bmp");
+	infos->three = loadTexture(infos, "./materials/3.bmp");
+	infos->four = loadTexture(infos, "./materials/4.bmp");
+
+	infos->five = loadTexture(infos, "./materials/5.bmp");
+	infos->six = loadTexture(infos, "./materials/6.bmp");
+	infos->seven = loadTexture(infos, "./materials/7.bmp");
+	infos->eight = loadTexture(infos, "./materials/8.bmp");
 }
 
 void	initializeDisplay(tInfos* infos)
@@ -106,6 +144,8 @@ void	initializeDisplay(tInfos* infos)
 		endError(infos, 1);
 
 	SDL_SetRenderDrawBlendMode(infos->mainRenderer, SDL_BLENDMODE_BLEND);
+
+	initializeTextures(infos);
 
 	infos->normalCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 	infos->interactCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);

@@ -23,6 +23,24 @@ void	endFree(tInfos* infos)
 		infos->map = NULL;
 	}
 
+	if (infos->one != NULL)
+		SDL_DestroyTexture(infos->one);
+	if (infos->two != NULL)
+		SDL_DestroyTexture(infos->two);
+	if (infos->three != NULL)
+		SDL_DestroyTexture(infos->three);
+	if (infos->four != NULL)
+		SDL_DestroyTexture(infos->four);
+
+	if (infos->five != NULL)
+		SDL_DestroyTexture(infos->five);
+	if (infos->six != NULL)
+		SDL_DestroyTexture(infos->six);
+	if (infos->seven != NULL)
+		SDL_DestroyTexture(infos->seven);
+	if (infos->eight != NULL)
+		SDL_DestroyTexture(infos->eight);
+
 	if (infos->mainRenderer != NULL)
 		SDL_DestroyRenderer(infos->mainRenderer);
 
