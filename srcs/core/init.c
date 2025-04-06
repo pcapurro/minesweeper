@@ -4,24 +4,24 @@ int	getBombsNumber(tInfos* infos, const int i, const int k)
 {
 	int	value = 0;
 
-	if (i != 0 && infos->map[i - 1][k] == '#')
+	if (i != 0 && infos->map[i - 1][k].bomb == true)
 		value++;
-	if (infos->map[i + 1] != NULL && infos->map[i + 1][k] == '#')
-		value++;
-
-	if (k != 0 && infos->map[i][k - 1] == '#')
-		value++;
-	if (infos->map[i][k] == '#')
+	if (infos->map[i + 1] != NULL && infos->map[i + 1][k].bomb == true)
 		value++;
 
-	if (i != 0 && k != 0 && infos->map[i - 1][k - 1] == '#')
+	if (k != 0 && infos->map[i][k - 1].bomb == true)
 		value++;
-	if (i != 0 && infos->map[i - 1][k + 1] == '#')
+	if (infos->map[i][k].bomb == true)
 		value++;
 
-	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1] == '#')
+	if (i != 0 && k != 0 && infos->map[i - 1][k - 1].bomb == true)
 		value++;
-	if (infos->map[i + 1] != NULL && infos->map[i + 1][k + 1] == '#')
+	if (i != 0 && infos->map[i - 1][k + 1].bomb == true)
+		value++;
+
+	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].bomb == true)
+		value++;
+	if (infos->map[i + 1] != NULL && infos->map[i + 1][k + 1].bomb == true)
 		value++;
 	
 	if (value == 0)
@@ -39,28 +39,28 @@ void	generateMap(tInfos* infos)
 
 	for (int i = infos->bombs; i != -1; i--)
 	{
-		while (infos->map[value1][value2] == '#')
+		while (infos->map[value1][value2].bomb == true)
 		{
 			value1 = getRandomNumber() % infos->height;
 			value2 = getRandomNumber() % infos->width;
 		}
 
-		infos->map[value1][value2] = '#';
+		infos->map[value1][value2].bomb = true;
 	}
 
 	for (int i = 0; infos->map[i] != NULL; i++)
 	{
-		for (int k = 0; infos->map[i][k] != '\0'; k++)
+		for (int k = 0; k != infos->width; k++)
 		{
-			if (infos->map[i][k] != '#')
-				infos->map[i][k] = getBombsNumber(infos, i, k) + 48;
+			if (infos->map[i][k].bomb != true)
+				infos->map[i][k].value = getBombsNumber(infos, i, k) + 48;
 		}
 	}
 }
 
 void	initializeMap(tInfos* infos)
 {
-	infos->map = malloc(sizeof(char*) * (infos->height + 1));
+	infos->map = malloc(sizeof(tCell*) * (infos->height + 1));
 	if (!infos->map)
 		endError(infos, 2);
 	for (int i = 0; i != infos->height + 1; i++)
@@ -68,7 +68,7 @@ void	initializeMap(tInfos* infos)
 
 	for (int i = 0; i != infos->height; i++)
 	{
-		infos->map[i] = malloc(sizeof(char) * (infos->width + 1));
+		infos->map[i] = malloc(sizeof(tCell) * (infos->width + 1));
 		if (!infos->map[i])
 		{
 			infos->map[i] = NULL;
@@ -83,8 +83,7 @@ void	initializeMap(tInfos* infos)
 		else
 		{
 			for (int k = 0; k != infos->width; k++)
-				infos->map[i][k] = ' ';
-			infos->map[i][infos->width] = '\0';
+				infos->map[i][k].bomb = false;
 		}
 	}
 
@@ -98,7 +97,7 @@ void	initializeDisplay(tInfos* infos)
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	infos->mainWindow = SDL_CreateWindow("minesweeper", SDL_WINDOWPOS_CENTERED, \
-		SDL_WINDOWPOS_CENTERED, (infos->width + 1) * 30, (infos->height + 2) * 30, 0);
+		SDL_WINDOWPOS_CENTERED, (infos->width + 1) * 42, (infos->height + 2) * 42, 0);
 	if (infos->mainWindow == NULL)
 		endError(infos, 1);
 

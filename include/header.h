@@ -12,6 +12,17 @@
 
 # include <SDL2/SDL.h>
 
+struct sCell
+{
+	bool	flag;
+	bool	discovered;
+
+	int		value;
+	bool	bomb;
+};
+
+typedef struct sCell tCell;
+
 struct sInfos
 {
 	int				width, height;
@@ -22,7 +33,7 @@ struct sInfos
 	SDL_Cursor		*normalCursor;
 	SDL_Cursor		*interactCursor;
 
-	char**			map;
+	tCell**			map;
 
 	int				bombs;
 	int				flags;

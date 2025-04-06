@@ -5,6 +5,8 @@ void	startGame(tInfos* infos)
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
+	displayGame(infos);
+
 	while (true)
 	{
 		if (SDL_PollEvent(&event) == true)
