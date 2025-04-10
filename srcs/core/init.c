@@ -114,15 +114,23 @@ SDL_Texture* loadTexture(tInfos* infos, const char* path)
 
 void	initializeTextures(tInfos* infos)
 {
-	infos->one = loadTexture(infos, "./materials/1.bmp");
-	infos->two = loadTexture(infos, "./materials/2.bmp");
-	infos->three = loadTexture(infos, "./materials/3.bmp");
-	infos->four = loadTexture(infos, "./materials/4.bmp");
+	infos->textures.one = loadTexture(infos, "./materials/numbers/1.bmp");
+	infos->textures.two = loadTexture(infos, "./materials/numbers/2.bmp");
+	infos->textures.three = loadTexture(infos, "./materials/numbers/3.bmp");
+	infos->textures.four = loadTexture(infos, "./materials/numbers/4.bmp");
 
-	infos->five = loadTexture(infos, "./materials/5.bmp");
-	infos->six = loadTexture(infos, "./materials/6.bmp");
-	infos->seven = loadTexture(infos, "./materials/7.bmp");
-	infos->eight = loadTexture(infos, "./materials/8.bmp");
+	infos->textures.five = loadTexture(infos, "./materials/numbers/5.bmp");
+	infos->textures.six = loadTexture(infos, "./materials/numbers/6.bmp");
+	infos->textures.seven = loadTexture(infos, "./materials/numbers/7.bmp");
+	infos->textures.eight = loadTexture(infos, "./materials/numbers/8.bmp");
+
+	infos->textures.bomb1 = loadTexture(infos, "./materials/icons/bomb-1.bmp");
+	infos->textures.bomb2 = loadTexture(infos, "./materials/icons/bomb-2.bmp");
+
+	infos->textures.flag = loadTexture(infos, "./materials/icons/flag.bmp");
+	infos->textures.clock = loadTexture(infos, "./materials/icons/clock.bmp");
+
+	infos->textures.arrow = loadTexture(infos, "./materials/icons/arrow.bmp");
 }
 
 void	initializeDisplay(tInfos* infos)

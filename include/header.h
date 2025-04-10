@@ -23,13 +23,8 @@ struct sCell
 
 typedef struct sCell tCell;
 
-struct sInfos
+struct sTextures
 {
-	int				width, height;
-
-	SDL_Window*		mainWindow;
-	SDL_Renderer*	mainRenderer;
-
 	SDL_Texture*	one;
 	SDL_Texture*	two;
 	SDL_Texture*	three;
@@ -39,6 +34,26 @@ struct sInfos
 	SDL_Texture*	six;
 	SDL_Texture*	seven;
 	SDL_Texture*	eight;
+
+	SDL_Texture*	bomb1;
+	SDL_Texture*	bomb2;
+
+	SDL_Texture*	flag;
+	SDL_Texture*	clock;
+	
+	SDL_Texture*	arrow;
+};
+
+typedef struct sTextures tTextures;
+
+struct sInfos
+{
+	int				width, height;
+
+	SDL_Window*		mainWindow;
+	SDL_Renderer*	mainRenderer;
+
+	tTextures		textures;
 
 	SDL_Cursor		*normalCursor;
 	SDL_Cursor		*interactCursor;

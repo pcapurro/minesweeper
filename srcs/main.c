@@ -13,15 +13,15 @@ void	setToDefault(tInfos* infos)
 	infos->mainWindow = NULL;
 	infos->mainRenderer = NULL;
 
-	infos->one = NULL;
-	infos->two = NULL;
-	infos->three = NULL;
-	infos->four = NULL;
+	infos->textures.one = NULL;
+	infos->textures.two = NULL;
+	infos->textures.three = NULL;
+	infos->textures.four = NULL;
 
-	infos->five = NULL;
-	infos->six = NULL;
-	infos->seven = NULL;
-	infos->eight = NULL;
+	infos->textures.five = NULL;
+	infos->textures.six = NULL;
+	infos->textures.seven = NULL;
+	infos->textures.eight = NULL;
 
 	infos->normalCursor = NULL;
 	infos->interactCursor = NULL;
