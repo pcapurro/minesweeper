@@ -2,8 +2,8 @@
 
 void	setToDefault(tInfos* infos)
 {
-	infos->width = 21;
-	infos->height = 21;
+	infos->width = 16;
+	infos->height = 16;
 
 	infos->bombs = 21;
 	infos->flags = 21;
@@ -42,7 +42,7 @@ bool	validateArguments(const int argc, const char** argv)
 
 	if (argc == 4)
 	{
-		if (atoi(argv[3]) <= 0 || atoi(argv[3]) > 99)
+		if (atoi(argv[3]) <= 0 || atoi(argv[3]) > 60)
 			return (false);
 	}
 
@@ -63,7 +63,7 @@ int	main(const int argc, const char** argv)
 		if (argc >= 3)
 			infos.width = atoi(argv[1]), infos.height = atoi(argv[2]);
 
-		if (argc == 4 && atoi(argv[3]) < 80)
+		if (argc == 4)
 			infos.bombs = atoi(argv[3]), infos.flags = infos.bombs;
 	}
 
