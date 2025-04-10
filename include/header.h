@@ -79,9 +79,15 @@ int				getRandomNumber(void);
 void			endError(tInfos* infos, const int value);
 void			endFree(tInfos* infos);
 
+void			drawLines(tInfos* infos);
+void			drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y);
+void			drawBackground(tInfos* infos);
+void			drawMap(tInfos* infos);
 void			displayGame(tInfos* infos);
+
 void			reactEvent(tInfos* infos, const int x, const int y, const int value);
 void			sortEvent(tInfos* infos, SDL_Event* event);
+
 void			startGame(tInfos* infos);
 void			resetGame(tInfos* infos);
 

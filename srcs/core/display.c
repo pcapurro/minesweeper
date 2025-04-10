@@ -1,5 +1,38 @@
 #include "header.h"
 
+void	drawLines(tInfos* infos)
+{
+	SDL_Rect	obj;
+
+	obj.y = 70;
+	obj.w = 2;
+
+	for (int i = 1; i != infos->width; i++)
+	{
+		obj.h = (infos->height * 42);
+		obj.x = 21 + (i * (infos->width * 42) / infos->width) - 1;
+
+		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(infos->mainRenderer, &obj);
+
+		SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
+	}
+
+	obj.x = 21;
+	obj.h = 2;
+
+	for (int i = 0; i != infos->height; i++)
+	{
+		obj.w = (infos->width * 42);
+		obj.y = 70 + ((i + 1) * (infos->height * 42) / infos->height);
+
+		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+		SDL_RenderFillRect(infos->mainRenderer, &obj);
+
+		SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
+	}
+}
+
 void	drawBackground(tInfos* infos)
 {
 	SDL_Rect	obj;
@@ -116,6 +149,7 @@ void	displayGame(tInfos* infos)
 {
 	drawBackground(infos);
 	drawMap(infos);
+	drawLines(infos);
 
 	SDL_RenderPresent(infos->mainRenderer);
 }
