@@ -28,7 +28,7 @@ void	displayMap(tInfos* infos)
 	SDL_Rect	obj;
 
 	obj.x = 21;
-	obj.y = 84;
+	obj.y = 70;
 
 	for (int i = 0; infos->map[i] != NULL; i++)
 	{
@@ -39,16 +39,22 @@ void	displayMap(tInfos* infos)
 
 			obj.x = 21 + (k * obj.w);
 
-			if (infos->map[i][k].value != -1)
-				SDL_RenderCopy(infos->mainRenderer, getTexture(infos, infos->map[i][k].value), NULL, &obj);
-			else
+			if (infos->map[i][k].bomb == false && infos->map[i][k].value == 0)
+				continue ;
+
+			SDL_Texture* texture = NULL;
+
+			if (infos->map[i][k].bomb == true)
 			{
-				SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 255);
+				SDL_SetRenderDrawColor(infos->mainRenderer, 255, 0, 0, 255);
 				SDL_RenderFillRect(infos->mainRenderer, &obj);
-				SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
 			}
+			else
+				texture = getTexture(infos, infos->map[i][k].value);
+
+			SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 		}
-		obj.y = 84 + (i * obj.h);
+		obj.y = 70 + ((i + 1) * obj.h);
 	}
 }
 
@@ -60,9 +66,7 @@ void	displayGame(tInfos* infos)
 	obj.h = (infos->height + 2) * 42;
 
 	SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
-
 	SDL_RenderFillRect(infos->mainRenderer, &obj);
-
 	SDL_RenderCopy(infos->mainRenderer, NULL, NULL, &obj);
 
 	displayMap(infos);

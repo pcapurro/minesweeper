@@ -68,11 +68,10 @@ void	initializeMap(tInfos* infos)
 
 	for (int i = 0; i != infos->height; i++)
 	{
-		infos->map[i] = malloc(sizeof(tCell) * (infos->width + 1));
+		infos->map[i] = malloc(sizeof(tCell) * (infos->width));
 		if (!infos->map[i])
 		{
 			infos->map[i] = NULL;
-
 			for (int k = i - 1; k != -1; k--)
 			{
 				if (infos->map[i] != NULL)
@@ -80,16 +79,14 @@ void	initializeMap(tInfos* infos)
 			}
 			endError(infos, 2);
 		}
-		else
-		{
-			for (int k = 0; k != infos->width; k++)
-			{
-				infos->map[i][k].discovered = false;
-				infos->map[i][k].flag = false;
 
-				infos->map[i][k].value = -1;
-				infos->map[i][k].bomb = false;
-			}
+		for (int k = 0; k != infos->width; k++)
+		{
+			infos->map[i][k].discovered = false;
+			infos->map[i][k].flag = false;
+
+			infos->map[i][k].value = 0;
+			infos->map[i][k].bomb = false;
 		}
 	}
 
