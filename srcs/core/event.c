@@ -96,9 +96,30 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 {
 	if (value == 0)
 	{
-		if (infos->moves == 0 && infos->map[x][y].bomb == false \
-			&& infos->map[x][y].value != 0)
-			infos->map[x][y].value = 0;
+		int	value = infos->map[x][y].value;
+
+		if (infos->moves == 0)
+		{
+			if (infos->map[x][y].bomb == true)
+			{
+				infos->map[x][y].bomb = false;
+				infos->map[x][y].bombType = 0;
+			
+				int value1 = getRandomNumber() % infos->height;
+				int	value2 = getRandomNumber() % infos->width;
+
+				while (infos->map[value1][value2].bomb == true)
+				{
+					value1 = getRandomNumber() % infos->height;
+					value2 = getRandomNumber() % infos->width;
+				}
+
+				infos->map[value1][value2].bomb = true;
+				infos->map[value1][value2].bombType = getRandomNumber() % 2;
+			}
+			else
+				infos->map[x][y].value = 0;
+		}
 
 		infos->map[x][y].discovered = true;
 		infos->moves++;
@@ -115,6 +136,8 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 		}
 		else
 			discoverZone(infos, x, y);
+
+		infos->map[x][y].value = value;
 	}
 
 	if (value == 1)
