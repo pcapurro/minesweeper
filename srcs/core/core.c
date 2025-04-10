@@ -3,12 +3,15 @@
 void	resetGame(tInfos* infos)
 {
 	infos->over = false;
+	infos->moves = 0;
 
 	for (int i = 0; infos->map[i] != NULL; i++)
 	{
 		for (int k = 0; k != infos->width; k++)
 		{
 			infos->map[i][k].bomb = false;
+			infos->map[i][k].bombType = 0;
+
 			infos->map[i][k].value = 0;
 
 			infos->map[i][k].discovered = false;

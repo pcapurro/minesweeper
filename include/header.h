@@ -18,7 +18,9 @@ struct sCell
 	bool	discovered;
 
 	int		value;
+
 	bool	bomb;
+	int		bombType;
 };
 
 typedef struct sCell tCell;
@@ -64,6 +66,7 @@ struct sInfos
 	int				flags;
 
 	int				over;
+	int				moves;
 };
 
 typedef struct sInfos tInfos;

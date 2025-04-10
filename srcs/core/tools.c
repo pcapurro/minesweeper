@@ -1,5 +1,41 @@
 #include "header.h"
 
+SDL_Texture*	getTexture(tInfos* infos, const int value)
+{
+	if (value == 1)
+		return (infos->textures.one);
+	if (value == 2)
+		return (infos->textures.two);
+	if (value == 3)
+		return (infos->textures.three);
+	if (value == 4)
+		return (infos->textures.four);
+
+	if (value == 5)
+		return (infos->textures.five);
+	if (value == 6)
+		return (infos->textures.six);
+	if (value == 7)
+		return (infos->textures.seven);
+	if (value == 8)
+		return (infos->textures.eight);
+
+	if (value == 21)
+		return (infos->textures.bomb1);
+	if (value == 42)
+		return (infos->textures.bomb2);
+
+	if (value == 84)
+		return (infos->textures.flag);
+	if (value == 128)
+		return (infos->textures.clock);
+
+	if (value == 256)
+		return (infos->textures.arrow);
+
+	return (NULL);
+}
+
 bool	isOver(tInfos* infos)
 {
 	int	notDiscovered = 0;

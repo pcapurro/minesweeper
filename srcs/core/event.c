@@ -8,7 +8,7 @@ void	discoverZone(tInfos* infos, const int x, const int y)
 	{
 		for (int k = 0; k != infos->width; k++)
 		{
-			if (infos->map[i][k].discovered == true)
+			if (infos->map[i][k].discovered == true && infos->map[i][k].value == 0)
 			{
 				if (i != 0 && infos->map[i - 1][k].discovered == false && infos->map[i - 1][k].bomb == false)
 				{
@@ -96,11 +96,17 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 {
 	if (value == 0)
 	{
+		if (infos->moves == 0 && infos->map[x][y].bomb == false \
+			&& infos->map[x][y].value != 0)
+			infos->map[x][y].value = 0;
+
 		infos->map[x][y].discovered = true;
+		infos->moves++;
+
 		if (infos->map[x][y].flag == true)
 			infos->map[x][y].flag = false, infos->flags++;
 
-		if (infos->map[x][y].bomb == true)
+		if (infos->over == true || infos->map[x][y].bomb == true)
 		{
 			discoverMap(infos);
 			infos->over = true;

@@ -1,41 +1,5 @@
 #include "header.h"
 
-SDL_Texture*	getTexture(tInfos* infos, const int value)
-{
-	if (value == 1)
-		return (infos->textures.one);
-	if (value == 2)
-		return (infos->textures.two);
-	if (value == 3)
-		return (infos->textures.three);
-	if (value == 4)
-		return (infos->textures.four);
-
-	if (value == 5)
-		return (infos->textures.five);
-	if (value == 6)
-		return (infos->textures.six);
-	if (value == 7)
-		return (infos->textures.seven);
-	if (value == 8)
-		return (infos->textures.eight);
-
-	if (value == 21)
-		return (infos->textures.bomb1);
-	if (value == 42)
-		return (infos->textures.bomb2);
-
-	if (value == 84)
-		return (infos->textures.flag);
-	if (value == 128)
-		return (infos->textures.clock);
-
-	if (value == 256)
-		return (infos->textures.arrow);
-
-	return (NULL);
-}
-
 void	drawBackground(tInfos* infos)
 {
 	SDL_Rect	obj;
@@ -93,9 +57,19 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 
 	if (infos->map[x][y].bomb == true)
 	{
-		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 0, 0, 255);
-		SDL_RenderFillRect(infos->mainRenderer, obj);
-		SDL_RenderCopy(infos->mainRenderer, NULL, NULL, obj);
+		SDL_Texture* texture = NULL;
+		
+		if (infos->map[x][y].bombType == 0)
+			texture = getTexture(infos, 21);
+		else
+			texture = getTexture(infos, 42);
+
+		newObj.w = 32 * (infos->width / 16), newObj.h = 32 * (infos->height / 16);
+
+		newObj.x = obj->x + ((obj->w / 2) - (newObj.w / 2));
+		newObj.y = obj->y + obj->h / 2 - (newObj.h / 2);
+
+		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &newObj);
 	}
 	else
 	{
