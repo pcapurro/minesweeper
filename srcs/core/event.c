@@ -81,6 +81,14 @@ void	discoverZone(tInfos* infos, const int x, const int y)
 						value++;
 				}
 
+				if (k + 1 != infos->width && infos->map[i][k + 1].discovered == false \
+					&& infos->map[i][k + 1].bomb == false)
+				{
+					infos->map[i][k + 1].discovered = true;
+					if (infos->map[i][k + 1].value == 0)
+						value++;
+				}
+
 				if (i != 0 && k != 0 && infos->map[i - 1][k - 1].discovered == false \
 					&& infos->map[i - 1][k - 1].bomb == false)
 				{
