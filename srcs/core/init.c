@@ -23,9 +23,6 @@ int	getBombsNumber(tInfos* infos, const int i, const int k)
 		value++;
 	if (infos->map[i + 1] != NULL && k + 1 != infos->width && infos->map[i + 1][k + 1].bomb == true)
 		value++;
-	
-	if (value == 0)
-		return (-1);
 
 	return (value);
 }

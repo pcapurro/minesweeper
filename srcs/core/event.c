@@ -47,7 +47,77 @@ int		translateCoords(tInfos* infos, const int x, const int y, const int value)
 
 void	discoverZone(tInfos* infos, const int x, const int y)
 {
-	;
+	int value = 0;
+
+	if (infos->map[x][y].discovered == false)
+		infos->map[x][y].discovered = true;
+
+	for (int i = 0; infos->map[i] != NULL; i++)
+	{
+		for (int k = 0; k != infos->width; k++)
+		{
+			if (infos->map[i][k].discovered == true && infos->map[i][k].value == 0)
+			{
+				if (i != 0 && infos->map[i - 1][k].discovered == false && infos->map[i - 1][k].bomb == false)
+				{
+					infos->map[i - 1][k].discovered = true;
+					if (infos->map[i - 1][k].value == 0)
+						value++;
+				}
+
+				if (infos->map[i + 1] != NULL && infos->map[i + 1][k].discovered == false \
+					&& infos->map[i + 1][k].bomb == false)
+				{
+					infos->map[i + 1][k].discovered = true;
+					if (infos->map[i + 1][k].value == 0)
+						value++;
+				}
+
+				if (k != 0 && infos->map[i][k - 1].discovered == false \
+					&& infos->map[i][k - 1].bomb == false)
+				{
+					infos->map[i][k - 1].discovered = true;
+					if (infos->map[i][k - 1].value == 0)
+						value++;
+				}
+
+				if (i != 0 && k != 0 && infos->map[i - 1][k - 1].discovered == false \
+					&& infos->map[i - 1][k - 1].bomb == false)
+				{
+					infos->map[i - 1][k - 1].discovered = true;
+					if (infos->map[i - 1][k - 1].value == 0)
+						value++;
+				}
+
+				if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].discovered == false \
+					&& infos->map[i - 1][k + 1].bomb == false)
+				{
+					infos->map[i - 1][k + 1].discovered = true;
+					if (infos->map[i - 1][k + 1].value == 0)
+						value++;
+				}
+
+				if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].discovered == false \
+					&& infos->map[i + 1][k - 1].bomb == false)
+				{
+					infos->map[i + 1][k - 1].discovered = true;
+					if (infos->map[i + 1][k - 1].value == 0)
+						value++;
+				}
+	
+				if (infos->map[i + 1] != NULL && k + 1 != infos->width \
+					&& infos->map[i + 1][k + 1].discovered == false && infos->map[i + 1][k + 1].bomb == false)
+				{
+					infos->map[i + 1][k + 1].discovered = true;
+					if (infos->map[i + 1][k + 1].value == 0)
+						value++;
+				}
+			}
+		}
+	}
+
+	if (value != 0)
+		discoverZone(infos, x, y);
 }
 
 void	discoverMap(tInfos* infos)
@@ -81,9 +151,11 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 				if (infos->map[x][y].flag == true)
 					infos->map[x][y].flag = false, infos->flags++;
 
-				if (infos->map[x][y].bomb == true) {
+				if (infos->map[x][y].bomb == true)
+				{
 					discoverMap(infos);
 					infos->over = true;
+
 					return ;
 				}
 				else if (infos->map[x][y].value == 0)
