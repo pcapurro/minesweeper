@@ -6,6 +6,9 @@ void	setToDefault(tInfos* infos)
 	infos->height = 21;
 
 	infos->bombs = 21;
+	infos->flags = 21;
+
+	infos->over = false;
 
 	infos->mainWindow = NULL;
 	infos->mainRenderer = NULL;

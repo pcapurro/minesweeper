@@ -18,7 +18,7 @@ void	startGame(tInfos* infos)
 			x = event.button.x;
 			y = event.button.y;
 
-			if (x > infos->width || y > infos->height || x < 0 || y < 0)
+			if (x > infos->width * 42 || y > infos->height * 42 || x < 0 || y < 0)
 				continue ;
 
 			sortEvent(infos, &event);

@@ -47,6 +47,8 @@ struct sInfos
 
 	int				bombs;
 	int				flags;
+
+	int				over;
 };
 
 typedef struct sInfos tInfos;

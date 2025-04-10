@@ -17,7 +17,7 @@ SRCS = srcs/main.c \
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -I include/
+CFLAGS =  -I include/ #-Wall -Wextra -Werror
 
 SDLFLAG = -lSDL2
 
