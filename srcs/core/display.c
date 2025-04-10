@@ -66,20 +66,30 @@ void	drawBackground(tInfos* infos)
 
 void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 {
-	SDL_Rect	textObj;
-
-	if (infos->map[x][y].flag == true && infos->over == false)
-		SDL_SetRenderDrawColor(infos->mainRenderer, 121, 0, 0, 21);
+	SDL_Rect	newObj;
+	
+	if (infos->map[x][y].discovered == false)
+		SDL_SetRenderDrawColor(infos->mainRenderer, 128, 128, 128, 21);
 	else
 		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
+
+	if (infos->map[x][y].flag == true)
+	{
+		SDL_Texture* texture = getTexture(infos, 84);
+
+		newObj.w = 32 * (infos->width / 16), newObj.h = 32 * (infos->height / 16);
+
+		newObj.x = obj->x + ((obj->w / 2) - (newObj.w / 2));
+		newObj.y = obj->y + obj->h / 2 - (newObj.h / 2);
+
+		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &newObj);
+	}
 
 	SDL_RenderFillRect(infos->mainRenderer, obj);
 	SDL_RenderCopy(infos->mainRenderer, NULL, NULL, obj);
 
 	if (infos->map[x][y].discovered == false)
 		return ;
-
-	SDL_Texture* texture = NULL;
 
 	if (infos->map[x][y].bomb == true)
 	{
@@ -89,18 +99,20 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 	}
 	else
 	{
+		SDL_Texture* texture = NULL;
+
 		texture = getTexture(infos, infos->map[x][y].value);
 		if (texture == NULL) {
-			SDL_SetRenderDrawColor(infos->mainRenderer, 128, 128, 128, 21);
+			SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
 			SDL_RenderFillRect(infos->mainRenderer, obj);
 		}
 
-		textObj.w = 21 * (infos->width / 16), textObj.h = 52 * (infos->height / 16);
+		newObj.w = 21 * (infos->width / 16), newObj.h = 52 * (infos->height / 16);
 
-		textObj.x = obj->x + ((obj->w / 2) - (textObj.w / 2));
-		textObj.y = obj->y + obj->h / 2 - (textObj.h / 2);
+		newObj.x = obj->x + ((obj->w / 2) - (newObj.w / 2));
+		newObj.y = obj->y + obj->h / 2 - (newObj.h / 2);
 
-		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &textObj);
+		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &newObj);
 	}
 }
 

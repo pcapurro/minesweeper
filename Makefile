@@ -10,6 +10,7 @@ SRCS = srcs/main.c \
 	srcs/help.c \
 	srcs/core/core.c \
 	srcs/core/init.c \
+	srcs/core/tools.c \
 	srcs/core/display.c \
 	srcs/core/event.c \
 	srcs/core/utils.c \

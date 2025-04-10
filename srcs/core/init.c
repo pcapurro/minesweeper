@@ -35,7 +35,7 @@ void	generateMap(tInfos* infos)
 	int value1 = getRandomNumber() % infos->height;
 	int	value2 = getRandomNumber() % infos->width;
 
-	for (int i = infos->bombs; i != -1; i--)
+	for (int i = infos->bombs; i != 0; i--)
 	{
 		while (infos->map[value1][value2].bomb == true)
 		{
@@ -89,6 +89,7 @@ void	initializeMap(tInfos* infos)
 	}
 
 	infos->bombs = (infos->bombs * (infos->width * infos->height)) / 100;
+	infos->flags = infos->bombs;
 
 	generateMap(infos);
 }

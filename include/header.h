@@ -77,10 +77,14 @@ void			endError(tInfos* infos, const int value);
 void			endFree(tInfos* infos);
 
 void			displayGame(tInfos* infos);
+void			reactEvent(tInfos* infos, const int x, const int y, const int value);
 void			sortEvent(tInfos* infos, SDL_Event* event);
 void			startGame(tInfos* infos);
 void			resetGame(tInfos* infos);
 
+bool			isOver(tInfos* infos);
+bool			checkCoords(tInfos* infos, const int x, const int y);
+int				translateCoords(tInfos* infos, const int x, const int y, const int value);
 int				getBombsNumber(tInfos* infos, const int i, const int k);
 void			generateMap(tInfos* infos);
 
