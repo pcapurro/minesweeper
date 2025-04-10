@@ -63,8 +63,8 @@ int	main(const int argc, const char** argv)
 		if (argc >= 3)
 			infos.width = atoi(argv[1]), infos.height = atoi(argv[2]);
 
-		if (argc == 4)
-			infos.bombs = atoi(argv[3]);
+		if (argc == 4 && atoi(argv[3]) < 80)
+			infos.bombs = atoi(argv[3]), infos.flags = infos.bombs;
 	}
 
 	initializeMap(&infos);

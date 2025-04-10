@@ -64,6 +64,10 @@ void	discoverMap(tInfos* infos)
 
 void	sortEvent(tInfos* infos, SDL_Event* event)
 {
+	if (event->type == SDL_KEYDOWN \
+		&& event->key.keysym.sym == SDLK_RETURN)
+		resetGame(infos);
+
 	if (event->type == SDL_MOUSEBUTTONUP)
 	{
 		if (checkCoords(infos, event->button.x, event->button.y) == true)
@@ -75,7 +79,7 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 			{
 				infos->map[x][y].discovered = true;
 				if (infos->map[x][y].flag == true)
-					infos->map[x][y].flag = false;
+					infos->map[x][y].flag = false, infos->flags++;
 
 				if (infos->map[x][y].bomb == true) {
 					discoverMap(infos);
@@ -85,11 +89,16 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 				else if (infos->map[x][y].value == 0)
 					discoverZone(infos, x, y);
 			}
-			if (event->button.button == SDL_BUTTON_RIGHT && infos->map[x][y].discovered == false)
-				infos->map[x][y].flag = true;
-
-			displayGame(infos);
+			if (event->button.button == SDL_BUTTON_RIGHT \
+				&& infos->map[x][y].discovered == false)
+			{
+				if (infos->map[x][y].flag == true)
+					infos->map[x][y].flag = false, infos->flags++;
+				else if (infos->flags > 0)
+					infos->map[x][y].flag = true, infos->flags--;
+			}
 		}
 	}
+
 	displayGame(infos);
 }

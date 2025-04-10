@@ -64,6 +64,7 @@ void			endFree(tInfos* infos);
 void			displayGame(tInfos* infos);
 void			sortEvent(tInfos* infos, SDL_Event* event);
 void			startGame(tInfos* infos);
+void			resetGame(tInfos* infos);
 
 int				getBombsNumber(tInfos* infos, const int i, const int k);
 void			generateMap(tInfos* infos);

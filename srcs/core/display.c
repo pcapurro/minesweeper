@@ -55,7 +55,7 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 {
 	SDL_Rect	textObj;
 
-	if (infos->map[x][y].flag == true)
+	if (infos->map[x][y].flag == true && infos->over == false)
 		SDL_SetRenderDrawColor(infos->mainRenderer, 121, 0, 0, 21);
 	else
 		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);

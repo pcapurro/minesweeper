@@ -1,8 +1,29 @@
 #include "header.h"
 
+void	resetGame(tInfos* infos)
+{
+	infos->over = false;
+
+	for (int i = 0; infos->map[i] != NULL; i++)
+	{
+		for (int k = 0; k != infos->width; k++)
+		{
+			infos->map[i][k].bomb = false;
+			infos->map[i][k].value = 0;
+
+			infos->map[i][k].discovered = false;
+			infos->map[i][k].flag = false;
+		}
+	}
+
+	generateMap(infos);
+
+	infos->flags = infos->bombs;
+}
+
 void	startGame(tInfos* infos)
 {
-	int			x = 0, y = 0;
+	// int			x = 0, y = 0;
 	SDL_Event	event;
 
 	displayGame(infos);
@@ -15,11 +36,11 @@ void	startGame(tInfos* infos)
 				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
 				return ;
 
-			x = event.button.x;
-			y = event.button.y;
+			// x = event.button.x;
+			// y = event.button.y;
 
-			if (x > infos->width * 42 || y > infos->height * 42 || x < 0 || y < 0)
-				continue ;
+			// if (x > infos->width * 42 || y > infos->height * 42 || x < 0 || y < 0)
+			// 	continue ;
 
 			sortEvent(infos, &event);
 
