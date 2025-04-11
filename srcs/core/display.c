@@ -66,7 +66,11 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 	SDL_Rect	newObj;
 	
 	if (infos->map[x][y].discovered == false)
+	{
 		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 42);
+		if (x == infos->xHighLight && y == infos->yHighLight)
+			SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 121);
+	}
 	else
 		SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
 

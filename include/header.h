@@ -81,6 +81,9 @@ struct sInfos
 	time_t			startTime;
 	time_t			finalTime;
 
+	int				xHighLight;
+	int				yHighLight;
+
 	int				over;
 	int				moves;
 };

@@ -160,6 +160,14 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 		else if (infos->flags > 0)
 			infos->map[x][y].flag = true, infos->flags--;
 	}
+
+	if (value == 2)
+	{
+		if (infos->map[x][y].discovered == false)
+			infos->xHighLight = x, infos->yHighLight = y;
+		else
+			infos->xHighLight = -1, infos->yHighLight = -1;
+	}
 }
 
 void	sortEvent(tInfos* infos, SDL_Event* event)
@@ -168,7 +176,7 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 		&& event->key.keysym.sym == SDLK_RETURN)
 		resetGame(infos);
 
-	if (event->type == SDL_MOUSEBUTTONUP)
+	if (event->type == SDL_MOUSEBUTTONUP || event->type == SDL_MOUSEMOTION)
 	{
 		if (infos->over == false \
 			&& checkCoords(infos, event->button.x, event->button.y) == true)
@@ -176,12 +184,15 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 			int x = translateCoords(infos, event->button.x, event->button.y, 0);
 			int y = translateCoords(infos, event->button.x, event->button.y, 1);
 
-			if (event->button.button == SDL_BUTTON_LEFT)
+			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT)
 				reactEvent(infos, x, y, 0);
 
-			if (event->button.button == SDL_BUTTON_RIGHT \
+			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_RIGHT \
 				&& infos->map[x][y].discovered == false)
 				reactEvent(infos, x, y, 1);
+
+			if (event->type == SDL_MOUSEMOTION)
+				reactEvent(infos, x, y, 2);
 		}
 	}
 

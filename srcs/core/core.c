@@ -21,6 +21,11 @@ void	resetGame(tInfos* infos)
 
 	generateMap(infos);
 
+	SDL_SetCursor(infos->normalCursor);
+
+	infos->xHighLight = -1;
+	infos->yHighLight = -1;
+
 	infos->flags = infos->bombs;
 	infos->startTime = getTime();
 }
