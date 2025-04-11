@@ -38,26 +38,17 @@ SDL_Texture*	getTexture(tInfos* infos, const int value)
 
 bool	isOver(tInfos* infos)
 {
-	int	notDiscovered = 0;
-	int	bombs = 0;
-
 	for (int i = 0; infos->map[i] != NULL; i++)
 	{
 		for (int k = 0; k != infos->width; k++)
 		{
-			if (infos->map[i]->discovered == false)
-			{
-				notDiscovered++;
-				if (infos->map[i]->bomb == true)
-					bombs++;
-			}
+			if (infos->map[i][k].discovered == false && infos->map[i][k].bomb == false)
+				return (false);
 		}
 	}
 
-	if (notDiscovered != bombs)
+	if (infos->flags != 0)
 		return (false);
-
-	printf("game won.\n");
 
 	return (true);
 }

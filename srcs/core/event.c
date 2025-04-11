@@ -129,6 +129,10 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 
 		if (infos->over == true || infos->map[x][y].bomb == true)
 		{
+			printf(RED);
+			printf("You lost the game.\n");
+			printf(COLOR_E);
+
 			discoverMap(infos);
 			infos->over = true;
 
@@ -157,7 +161,7 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 
 	if (event->type == SDL_MOUSEBUTTONUP)
 	{
-		if (checkCoords(infos, event->button.x, event->button.y) == true)
+		if (infos->over == false && checkCoords(infos, event->button.x, event->button.y) == true)
 		{
 			int x = translateCoords(infos, event->button.x, event->button.y, 0);
 			int y = translateCoords(infos, event->button.x, event->button.y, 1);

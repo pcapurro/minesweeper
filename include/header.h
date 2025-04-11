@@ -12,6 +12,10 @@
 
 # include <SDL2/SDL.h>
 
+# define RED "\033[31m"
+# define GREEN "\033[32m"
+# define COLOR_E "\033[0m"
+
 struct sCell
 {
 	bool	flag;

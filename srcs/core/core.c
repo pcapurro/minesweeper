@@ -29,12 +29,16 @@ void	startGame(tInfos* infos)
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
-	displayGame(infos);
-
 	while (true)
 	{
 		if (infos->over == false && isOver(infos) == true)
+		{
+			printf(GREEN);
+			printf("You won the game! 🎉\n");
+			printf(COLOR_E);
+
 			infos->over = true;
+		}
 
 		if (SDL_PollEvent(&event) == true)
 		{
@@ -48,7 +52,7 @@ void	startGame(tInfos* infos)
 			if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN \
 				|| event.type == SDL_MOUSEBUTTONUP)
 			{
-				if (x > infos->width * 42 || y > infos->height * 42 || x < 0 || y < 0)
+				if (x > (infos->width + 1) * 42 || y > (infos->height + 2) * 42 || x < 0 || y < 0)
 					continue ;
 			}
 
