@@ -24,17 +24,17 @@ SDL_Texture*	getTexture(tInfos* infos, const int value)
 	if (value == 9)
 		return (infos->textures.nine);
 
-	if (value == 21)
+	if (value == BOMB1)
 		return (infos->textures.bomb1);
-	if (value == 42)
+	if (value == BOMB2)
 		return (infos->textures.bomb2);
 
-	if (value == 84)
+	if (value == FLAG)
 		return (infos->textures.flag);
-	if (value == 128)
+	if (value == TIMER)
 		return (infos->textures.clock);
 
-	if (value == 256)
+	if (value == ARROW)
 		return (infos->textures.arrow);
 
 	return (NULL);

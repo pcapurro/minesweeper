@@ -44,7 +44,12 @@ void	generateMap(tInfos* infos)
 		}
 
 		infos->map[value1][value2].bomb = true;
-		infos->map[value1][value2].bombType = getRandomNumber() % 2;
+
+		int nb = getRandomNumber() % 3;
+		if (nb == 0 || nb == 1)
+			infos->map[value1][value2].bombType = BOMB1;
+		else
+			infos->map[value1][value2].bombType = BOMB2;
 	}
 
 	for (int i = 0; infos->map[i] != NULL; i++)
@@ -85,7 +90,7 @@ void	initializeMap(tInfos* infos)
 			infos->map[i][k].flag = false;
 
 			infos->map[i][k].bomb = false;
-			infos->map[i][k].bombType = 0;
+			infos->map[i][k].bombType = BOMB1;
 
 			infos->map[i][k].value = 0;
 		}

@@ -14,7 +14,14 @@
 
 # define RED "\033[31m"
 # define GREEN "\033[32m"
+# define GREY "\033[90m"
 # define COLOR_E "\033[0m"
+
+# define BOMB1 21
+# define BOMB2 42
+# define FLAG 84
+# define TIMER 128
+# define ARROW 256
 
 struct sCell
 {
@@ -71,6 +78,9 @@ struct sInfos
 	int				bombs;
 	int				flags;
 
+	time_t			startTime;
+	time_t			finalTime;
+
 	int				over;
 	int				moves;
 };
@@ -81,6 +91,7 @@ int				getLen(const char* str);
 void			writeStr(const char* str, const int fd);
 bool			isSame(const char* str1, const char* str2);
 int				getRandomNumber(void);
+time_t			getTime(void);
 
 void			endError(tInfos* infos, const int value);
 void			endFree(tInfos* infos);

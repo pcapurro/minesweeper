@@ -10,7 +10,7 @@ void	resetGame(tInfos* infos)
 		for (int k = 0; k != infos->width; k++)
 		{
 			infos->map[i][k].bomb = false;
-			infos->map[i][k].bombType = 0;
+			infos->map[i][k].bombType = BOMB1;
 
 			infos->map[i][k].value = 0;
 
@@ -22,6 +22,7 @@ void	resetGame(tInfos* infos)
 	generateMap(infos);
 
 	infos->flags = infos->bombs;
+	infos->startTime = getTime();
 }
 
 void	startGame(tInfos* infos)
@@ -29,15 +30,20 @@ void	startGame(tInfos* infos)
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
+	infos->startTime = getTime();
+
 	while (true)
 	{
 		if (infos->over == false && isOver(infos) == true)
 		{
+			infos->over = true;
+			infos->finalTime = getTime();
+
 			printf(GREEN);
 			printf("You won the game! 🎉\n");
 			printf(COLOR_E);
 
-			infos->over = true;
+			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
 		}
 
 		if (SDL_PollEvent(&event) == true)

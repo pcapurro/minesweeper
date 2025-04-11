@@ -8,6 +8,8 @@ void	setToDefault(tInfos* infos)
 	infos->bombs = 21;
 	infos->flags = 21;
 
+	infos->startTime = 0;
+
 	infos->moves = 0;
 	infos->over = false;
 

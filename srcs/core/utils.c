@@ -30,6 +30,17 @@ void	writeStr(const char* str, const int fd)
 		write(fd, &str[i], 1);
 }
 
+time_t	getTime(void)
+{
+	struct timeval	time;
+	time_t			value;
+
+	gettimeofday(&time, NULL);
+	value = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+
+	return (value);
+}
+
 int		getRandomNumber(void)
 {
 	struct timeval	time;

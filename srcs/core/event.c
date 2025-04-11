@@ -103,7 +103,7 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 			if (infos->map[x][y].bomb == true)
 			{
 				infos->map[x][y].bomb = false;
-				infos->map[x][y].bombType = 0;
+				infos->map[x][y].bombType = BOMB1;
 			
 				int value1 = getRandomNumber() % infos->height;
 				int	value2 = getRandomNumber() % infos->width;
@@ -115,7 +115,12 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 				}
 
 				infos->map[value1][value2].bomb = true;
-				infos->map[value1][value2].bombType = getRandomNumber() % 2;
+
+				int nb = getRandomNumber() % 3;
+				if (nb == 0 || nb == 1)
+					infos->map[value1][value2].bombType = BOMB1;
+				else
+					infos->map[value1][value2].bombType = BOMB2;
 			}
 			else
 				infos->map[x][y].value = 0;
@@ -129,12 +134,16 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 
 		if (infos->over == true || infos->map[x][y].bomb == true)
 		{
+			discoverMap(infos);
+
+			infos->over = true;
+			infos->finalTime = getTime();
+
 			printf(RED);
 			printf("You lost the game.\n");
 			printf(COLOR_E);
 
-			discoverMap(infos);
-			infos->over = true;
+			printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
 
 			return ;
 		}
