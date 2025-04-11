@@ -31,6 +31,7 @@ typedef struct sCell tCell;
 
 struct sTextures
 {
+	SDL_Texture*	zero;
 	SDL_Texture*	one;
 	SDL_Texture*	two;
 	SDL_Texture*	three;
@@ -40,6 +41,7 @@ struct sTextures
 	SDL_Texture*	six;
 	SDL_Texture*	seven;
 	SDL_Texture*	eight;
+	SDL_Texture*	nine;
 
 	SDL_Texture*	bomb1;
 	SDL_Texture*	bomb2;

@@ -14,6 +14,7 @@ void	setToDefault(tInfos* infos)
 	infos->mainWindow = NULL;
 	infos->mainRenderer = NULL;
 
+	infos->textures.zero = NULL;
 	infos->textures.one = NULL;
 	infos->textures.two = NULL;
 	infos->textures.three = NULL;
@@ -23,6 +24,7 @@ void	setToDefault(tInfos* infos)
 	infos->textures.six = NULL;
 	infos->textures.seven = NULL;
 	infos->textures.eight = NULL;
+	infos->textures.nine = NULL;
 
 	infos->normalCursor = NULL;
 	infos->interactCursor = NULL;
@@ -35,10 +37,10 @@ bool	validateArguments(const int argc, const char** argv)
 	if (argc != 3 && argc != 4)
 		return (false);
 
-	if (atoi(argv[1]) < 16 || atoi(argv[1]) > 26)
+	if (atoi(argv[1]) < 16 || atoi(argv[1]) > 21)
 		return (false);
 
-	if (atoi(argv[2]) < 16 || atoi(argv[2]) > 26)
+	if (atoi(argv[2]) < 16 || atoi(argv[2]) > 21)
 		return (false);
 
 	if (argc == 4)

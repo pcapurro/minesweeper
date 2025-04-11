@@ -145,11 +145,47 @@ void	drawMap(tInfos* infos)
 	}
 }
 
+void	drawFlags(tInfos* infos)
+{
+	SDL_Texture*	texture = NULL;
+	SDL_Rect		obj;
+
+	texture = getTexture(infos, 84);
+
+	obj.x = 21;
+	obj.y = 21;
+
+	obj.w = 32 * (infos->width / 16), obj.h = 32 * (infos->height / 16);
+
+	obj.x = obj.x + ((obj.w / 2) - (obj.w / 2));
+	obj.y = obj.y + obj.h / 2 - (obj.h / 2);
+
+	SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
+
+	char	nb[3] = {0, 0, 0};
+	snprintf(nb, sizeof(nb), "%d", infos->flags);
+
+	obj.w = 19 * (infos->width / 16), obj.h = 50 * (infos->height / 16);
+	obj.y = obj.y - (obj.w / 2);
+
+	obj.x += 21;
+
+	for (int i = 0; nb[i] != '\0'; i++)
+	{
+		obj.x += 21;
+		texture = getTexture(infos, nb[i] - 48);
+
+		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
+	}
+}
+
 void	displayGame(tInfos* infos)
 {
 	drawBackground(infos);
 	drawMap(infos);
 	drawLines(infos);
+
+	drawFlags(infos);
 
 	SDL_RenderPresent(infos->mainRenderer);
 }

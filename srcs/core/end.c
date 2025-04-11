@@ -23,6 +23,8 @@ void	endFree(tInfos* infos)
 		infos->map = NULL;
 	}
 
+	if (infos->textures.zero != NULL)
+		SDL_DestroyTexture(infos->textures.zero);
 	if (infos->textures.one != NULL)
 		SDL_DestroyTexture(infos->textures.one);
 	if (infos->textures.two != NULL)
@@ -40,6 +42,8 @@ void	endFree(tInfos* infos)
 		SDL_DestroyTexture(infos->textures.seven);
 	if (infos->textures.eight != NULL)
 		SDL_DestroyTexture(infos->textures.eight);
+	if (infos->textures.nine != NULL)
+		SDL_DestroyTexture(infos->textures.nine);
 
 	if (infos->textures.bomb1 != NULL)
 		SDL_DestroyTexture(infos->textures.bomb1);

@@ -2,6 +2,8 @@
 
 SDL_Texture*	getTexture(tInfos* infos, const int value)
 {
+	if (value == 0)
+		return (infos->textures.zero);
 	if (value == 1)
 		return (infos->textures.one);
 	if (value == 2)
@@ -19,6 +21,8 @@ SDL_Texture*	getTexture(tInfos* infos, const int value)
 		return (infos->textures.seven);
 	if (value == 8)
 		return (infos->textures.eight);
+	if (value == 9)
+		return (infos->textures.nine);
 
 	if (value == 21)
 		return (infos->textures.bomb1);
