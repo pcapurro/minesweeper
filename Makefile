@@ -7,6 +7,7 @@
 NAME = minesweeper
 
 SRCS = srcs/main.c \
+	srcs/default.c \
 	srcs/help.c \
 	srcs/core/core.c \
 	srcs/core/init.c \
@@ -18,7 +19,7 @@ SRCS = srcs/main.c \
 
 CC = gcc
 
-CFLAGS =  -I include/ #-Wall -Wextra -Werror
+CFLAGS =  -Wall -Wextra -Werror -I include/
 
 SDLFLAG = -lSDL2
 

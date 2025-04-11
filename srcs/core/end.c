@@ -7,10 +7,10 @@ void	endError(tInfos* infos, const int value)
 	else if (value == 1)
 		writeStr("Error! SDL failed.\n", 2);
 
-	endFree(infos);
+	endFree(infos, 1);
 }
 
-void	endFree(tInfos* infos)
+void	endFree(tInfos* infos, const int value)
 {
 	if (infos->map != NULL)
 	{
@@ -52,8 +52,8 @@ void	endFree(tInfos* infos)
 
 	if (infos->textures.flag != NULL)
 		SDL_DestroyTexture(infos->textures.flag);
-	if (infos->textures.clock != NULL)
-		SDL_DestroyTexture(infos->textures.clock);
+	if (infos->textures.timer != NULL)
+		SDL_DestroyTexture(infos->textures.timer);
 
 	if (infos->textures.arrow != NULL)
 		SDL_DestroyTexture(infos->textures.arrow);
@@ -71,5 +71,5 @@ void	endFree(tInfos* infos)
 
 	SDL_Quit();
 
-	exit(1);
+	exit(value);
 }

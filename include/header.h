@@ -15,12 +15,15 @@
 # define RED "\033[31m"
 # define GREEN "\033[32m"
 # define GREY "\033[90m"
+
 # define COLOR_E "\033[0m"
 
 # define BOMB1 21
 # define BOMB2 42
+
 # define FLAG 84
 # define TIMER 128
+
 # define ARROW 256
 
 struct sCell
@@ -54,7 +57,7 @@ struct sTextures
 	SDL_Texture*	bomb2;
 
 	SDL_Texture*	flag;
-	SDL_Texture*	clock;
+	SDL_Texture*	timer;
 	
 	SDL_Texture*	arrow;
 };
@@ -97,13 +100,21 @@ int				getRandomNumber(void);
 time_t			getTime(void);
 
 void			endError(tInfos* infos, const int value);
-void			endFree(tInfos* infos);
+void			endFree(tInfos* infos, const int value);
 
 void			drawLines(tInfos* infos);
 void			drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y);
 void			drawBackground(tInfos* infos);
 void			drawMap(tInfos* infos);
+
+void			drawFlags(tInfos* infos);
+void			drawTimer(tInfos* infos);
+void			drawArrow(tInfos* infos);
+
 void			displayGame(tInfos* infos);
+
+void			discoverZone(tInfos* infos, const int x, const int y);
+void			discoverMap(tInfos* infos);
 
 void			reactEvent(tInfos* infos, const int x, const int y, const int value);
 void			sortEvent(tInfos* infos, SDL_Event* event);
@@ -115,21 +126,22 @@ bool			isOver(tInfos* infos);
 bool			checkCoords(tInfos* infos, const int x, const int y);
 int				translateCoords(tInfos* infos, const int x, const int y, const int value);
 int				getBombsNumber(tInfos* infos, const int i, const int k);
-void			generateMap(tInfos* infos);
 
 SDL_Texture*	getTexture(tInfos* infos, const int value);
 SDL_Texture*	loadTexture(tInfos* infos, const char* path);
 
 void			initializeTextures(tInfos* infos);
-
 void			initializeDisplay(tInfos* infos);
+void			generateMap(tInfos* infos);
 void			initializeMap(tInfos* infos);
+
+void			setTexturesToDefault(tInfos* infos);
+void			setAllToDefault(tInfos* infos);
 
 bool			isHelp(const char** argv);
 void			help(void);
 
 bool			validateArguments(const int argc, const char** argv);
-
 int				main(const int argc, const char** argv);
 
 #endif

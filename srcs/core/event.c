@@ -196,18 +196,16 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 		}
 	}
 
-	if (event->button.x <= ((infos->width + 1) * 42) - 21 \
-		&& event->button.x >= ((infos->width + 1) * 42) - 21 - (45 * (infos->width / 16)))
+	if (event->button.x <= ((infos->width + 1) * 42) - 21
+		&& event->button.x >= ((infos->width + 1) * 42) - 21 - (45 * (infos->width / 16))
+		&& event->button.y >= 15 && event->button.y <= (45 * (infos->height / 16)))
 	{
-		if (event->button.y >= 15 && event->button.y <= (45 * (infos->height / 16)))
-		{
-			SDL_SetCursor(infos->interactCursor);
-			if (event->type == SDL_MOUSEBUTTONUP)
-				resetGame(infos);
-		}
-		else
-			SDL_SetCursor(infos->normalCursor);
+		SDL_SetCursor(infos->interactCursor);
+		if (event->type == SDL_MOUSEBUTTONUP)
+			resetGame(infos);
 	}
+	else
+		SDL_SetCursor(infos->normalCursor);
 
 	displayGame(infos);
 }

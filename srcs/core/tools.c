@@ -32,7 +32,7 @@ SDL_Texture*	getTexture(tInfos* infos, const int value)
 	if (value == FLAG)
 		return (infos->textures.flag);
 	if (value == TIMER)
-		return (infos->textures.clock);
+		return (infos->textures.timer);
 
 	if (value == ARROW)
 		return (infos->textures.arrow);
@@ -66,6 +66,36 @@ bool	checkCoords(tInfos* infos, const int x, const int y)
 		return (false);
 
 	return (true);
+}
+
+int	getBombsNumber(tInfos* infos, const int i, const int k)
+{
+	int	value = 0;
+
+	if (infos->map[i][k].bomb == true)
+		value++;
+
+	if (i != 0 && infos->map[i - 1][k].bomb == true)
+		value++;
+	if (infos->map[i + 1] != NULL && infos->map[i + 1][k].bomb == true)
+		value++;
+
+	if (k != 0 && infos->map[i][k - 1].bomb == true)
+		value++;
+	if (k + 1 != infos->width && infos->map[i][k + 1].bomb == true)
+		value++;
+
+	if (i != 0 && k != 0 && infos->map[i - 1][k - 1].bomb == true)
+		value++;
+	if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].bomb == true)
+		value++;
+
+	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].bomb == true)
+		value++;
+	if (infos->map[i + 1] != NULL && k + 1 != infos->width && infos->map[i + 1][k + 1].bomb == true)
+		value++;
+
+	return (value);
 }
 
 int		translateCoords(tInfos* infos, const int x, const int y, const int value)

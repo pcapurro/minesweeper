@@ -1,35 +1,5 @@
 #include "header.h"
 
-int	getBombsNumber(tInfos* infos, const int i, const int k)
-{
-	int	value = 0;
-
-	if (infos->map[i][k].bomb == true)
-		value++;
-
-	if (i != 0 && infos->map[i - 1][k].bomb == true)
-		value++;
-	if (infos->map[i + 1] != NULL && infos->map[i + 1][k].bomb == true)
-		value++;
-
-	if (k != 0 && infos->map[i][k - 1].bomb == true)
-		value++;
-	if (k + 1 != infos->width && infos->map[i][k + 1].bomb == true)
-		value++;
-
-	if (i != 0 && k != 0 && infos->map[i - 1][k - 1].bomb == true)
-		value++;
-	if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].bomb == true)
-		value++;
-
-	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].bomb == true)
-		value++;
-	if (infos->map[i + 1] != NULL && k + 1 != infos->width && infos->map[i + 1][k + 1].bomb == true)
-		value++;
-
-	return (value);
-}
-
 void	generateMap(tInfos* infos)
 {
 	int value1 = getRandomNumber() % infos->height;
@@ -139,7 +109,7 @@ void	initializeTextures(tInfos* infos)
 	infos->textures.bomb2 = loadTexture(infos, "./materials/icons/bomb-2.bmp");
 
 	infos->textures.flag = loadTexture(infos, "./materials/icons/flag.bmp");
-	infos->textures.clock = loadTexture(infos, "./materials/icons/clock.bmp");
+	infos->textures.timer = loadTexture(infos, "./materials/icons/timer.bmp");
 
 	infos->textures.arrow = loadTexture(infos, "./materials/icons/arrow.bmp");
 }
