@@ -222,6 +222,24 @@ void	drawTimer(tInfos* infos)
 	}
 }
 
+void	drawArrow(tInfos* infos)
+{
+	SDL_Texture*	texture = NULL;
+	SDL_Rect		obj;
+
+	texture = getTexture(infos, ARROW);
+
+	obj.w = 45 * (infos->width / 16), obj.h = 45 * (infos->height / 16);
+
+	obj.x = ((infos->width + 1) * 42) - 21 - obj.w;
+	obj.y = 15;
+
+	obj.x = obj.x + ((obj.w / 2) - (obj.w / 2));
+	obj.y = obj.y + obj.h / 2 - (obj.h / 2);
+
+	SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
+}
+
 void	displayGame(tInfos* infos)
 {
 	drawBackground(infos);
@@ -229,8 +247,9 @@ void	displayGame(tInfos* infos)
 	drawLines(infos);
 
 	drawFlags(infos);
-	
 	drawTimer(infos);
+
+	drawArrow(infos);
 
 	SDL_RenderPresent(infos->mainRenderer);
 }
