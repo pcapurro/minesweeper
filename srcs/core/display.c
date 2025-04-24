@@ -120,7 +120,7 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 			SDL_RenderFillRect(infos->mainRenderer, obj);
 		}
 
-		newObj.w = 21 * (infos->width / 16), newObj.h = 52 * (infos->height / 16);
+		newObj.w = 42, newObj.h = 42;
 
 		newObj.x = obj->x + ((obj->w / 2) - (newObj.w / 2));
 		newObj.y = obj->y + obj->h / 2 - (newObj.h / 2);
@@ -171,10 +171,10 @@ void	drawFlags(tInfos* infos)
 	char	nb[3] = {0, 0, 0};
 	snprintf(nb, sizeof(nb), "%d", infos->flags);
 
-	obj.w = 19 * (infos->width / 16), obj.h = 50 * (infos->height / 16);
-	obj.y = obj.y - (obj.w / 2);
+	obj.w = 42, obj.h = 42;
+	obj.y = 17;
 
-	obj.x += 21;
+	obj.x += 14;
 
 	for (int i = 0; nb[i] != '\0'; i++)
 	{
@@ -193,7 +193,7 @@ void	drawTimer(tInfos* infos)
 	texture = getTexture(infos, TIMER);
 
 	obj.x = 21 * 7;
-	obj.y = 21;
+	obj.y = 20;
 
 	obj.w = 34 * (infos->width / 16), obj.h = 34 * (infos->height / 16);
 
@@ -212,10 +212,10 @@ void	drawTimer(tInfos* infos)
 	else
 		snprintf(nb, sizeof(nb), "%ld", (getTime() - infos->startTime) / 1000);
 
-	obj.w = 19 * (infos->width / 16), obj.h = 50 * (infos->height / 16);
-	obj.y = obj.y - (obj.w / 2);
+	obj.w = 42, obj.h = 42;
+	obj.y = 17;
 
-	obj.x += 21;
+	obj.x += 14;
 
 	for (int i = 0; nb[i] != '\0'; i++)
 	{
@@ -224,6 +224,12 @@ void	drawTimer(tInfos* infos)
 
 		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 	}
+
+	obj.x += 25;
+	obj.y = 20;
+	texture = getTexture(infos, SECOND);
+
+	SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 }
 
 void	drawArrow(tInfos* infos)
@@ -233,10 +239,10 @@ void	drawArrow(tInfos* infos)
 
 	texture = getTexture(infos, ARROW);
 
-	obj.w = 45 * (infos->width / 16), obj.h = 45 * (infos->height / 16);
+	obj.w = 50, obj.h = 50;
 
 	obj.x = ((infos->width + 1) * 42) - 21 - obj.w;
-	obj.y = 15;
+	obj.y = 9;
 
 	obj.x = obj.x + ((obj.w / 2) - (obj.w / 2));
 	obj.y = obj.y + obj.h / 2 - (obj.h / 2);

@@ -18,7 +18,9 @@ void	setTexturesToDefault(tInfos* infos)
 	infos->textures.bomb2 = NULL;
 
 	infos->textures.flag = NULL;
+
 	infos->textures.timer = NULL;
+	infos->textures.second = NULL;
 
 	infos->textures.arrow = NULL;
 }

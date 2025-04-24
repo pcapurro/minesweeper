@@ -31,8 +31,11 @@ SDL_Texture*	getTexture(tInfos* infos, const int value)
 
 	if (value == FLAG)
 		return (infos->textures.flag);
+
 	if (value == TIMER)
 		return (infos->textures.timer);
+	if (value == SECOND)
+		return (infos->textures.second);
 
 	if (value == ARROW)
 		return (infos->textures.arrow);

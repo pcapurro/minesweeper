@@ -22,7 +22,9 @@
 # define BOMB2 42
 
 # define FLAG 84
+
 # define TIMER 128
+# define SECOND 142
 
 # define ARROW 256
 
@@ -57,7 +59,9 @@ struct sTextures
 	SDL_Texture*	bomb2;
 
 	SDL_Texture*	flag;
+
 	SDL_Texture*	timer;
+	SDL_Texture*	second;
 	
 	SDL_Texture*	arrow;
 };

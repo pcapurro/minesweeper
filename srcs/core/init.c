@@ -109,7 +109,9 @@ void	initializeTextures(tInfos* infos)
 	infos->textures.bomb2 = loadTexture(infos, "./materials/icons/bomb-2.bmp");
 
 	infos->textures.flag = loadTexture(infos, "./materials/icons/flag.bmp");
+
 	infos->textures.timer = loadTexture(infos, "./materials/icons/timer.bmp");
+	infos->textures.second = loadTexture(infos, "./materials/icons/second.bmp");
 
 	infos->textures.arrow = loadTexture(infos, "./materials/icons/arrow.bmp");
 }
