@@ -141,7 +141,9 @@ void			setAllToDefault(tInfos* infos);
 bool			isHelp(const char** argv);
 void			help(void);
 
+void			errorArguments(void);
 bool			validateArguments(const int argc, const char** argv);
+
 int				main(const int argc, const char** argv);
 
 #endif
