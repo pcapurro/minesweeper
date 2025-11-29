@@ -74,8 +74,8 @@ void	initializeMap(tInfos* infos)
 
 SDL_Texture* loadTexture(tInfos* infos, const char* path)
 {
-	SDL_Surface*	surface;
-	SDL_Texture*	texture;
+	SDL_Surface*	surface = NULL;
+	SDL_Texture*	texture = NULL;
 
 	surface = SDL_LoadBMP(path);
 	if (surface == NULL)
