@@ -169,7 +169,7 @@ void	drawFlags(tInfos* infos)
 
 	SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 
-	char	nb[3] = {0, 0, 0};
+	char	nb[4] = {0, 0, 0, 0};
 	snprintf(nb, sizeof(nb), "%d", infos->flags);
 
 	obj.w = 42, obj.h = 42;
