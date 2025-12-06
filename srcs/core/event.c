@@ -92,39 +92,53 @@ void	discoverMap(tInfos* infos)
 	}
 }
 
-void	reactEvent(tInfos* infos, const int x, const int y, const int value)
+void	reactStartGame(tInfos* infos, const int x, const int y)
 {
-	if (value == 0)
+	if (infos->map[x][y].bomb == true)
+	{
+		infos->map[x][y].bomb = false;
+		infos->map[x][y].bombType = BOMB1;
+	
+		int value1 = getRandomNumber() % infos->height;
+		int	value2 = getRandomNumber() % infos->width;
+
+		while (infos->map[value1][value2].bomb == true)
+		{
+			value1 = getRandomNumber() % infos->height;
+			value2 = getRandomNumber() % infos->width;
+		}
+		infos->map[value1][value2].bomb = true;
+
+		int nb = getRandomNumber() % 3;
+
+		if (nb == 0 || nb == 1)
+			infos->map[value1][value2].bombType = BOMB1;
+		else
+			infos->map[value1][value2].bombType = BOMB2;
+	}
+	else
+		infos->map[x][y].value = 0;
+}
+
+void	reactEndGame(tInfos* infos)
+{
+	discoverMap(infos);
+
+	infos->over = true;
+	infos->finalTime = getTime();
+
+	printf("%sYou lost the game.%s\n", RED, COLOR_E);
+	printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
+}
+
+void	reactEvent(tInfos* infos, const int x, const int y, const int event)
+{
+	if (event == SDL_BUTTON_LEFT)
 	{
 		int	value = infos->map[x][y].value;
 
 		if (infos->moves == 0)
-		{
-			if (infos->map[x][y].bomb == true)
-			{
-				infos->map[x][y].bomb = false;
-				infos->map[x][y].bombType = BOMB1;
-			
-				int value1 = getRandomNumber() % infos->height;
-				int	value2 = getRandomNumber() % infos->width;
-
-				while (infos->map[value1][value2].bomb == true)
-				{
-					value1 = getRandomNumber() % infos->height;
-					value2 = getRandomNumber() % infos->width;
-				}
-
-				infos->map[value1][value2].bomb = true;
-
-				int nb = getRandomNumber() % 3;
-				if (nb == 0 || nb == 1)
-					infos->map[value1][value2].bombType = BOMB1;
-				else
-					infos->map[value1][value2].bombType = BOMB2;
-			}
-			else
-				infos->map[x][y].value = 0;
-		}
+			reactStartGame(infos, x, y);
 
 		infos->map[x][y].discovered = true;
 		infos->moves++;
@@ -134,17 +148,7 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 
 		if (infos->over == true || infos->map[x][y].bomb == true)
 		{
-			discoverMap(infos);
-
-			infos->over = true;
-			infos->finalTime = getTime();
-
-			printf(RED);
-			printf("You lost the game.\n");
-			printf(COLOR_E);
-
-			printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
-
+			reactEndGame(infos);
 			return ;
 		}
 		else
@@ -153,7 +157,7 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 		infos->map[x][y].value = value;
 	}
 
-	if (value == 1)
+	if (event == SDL_BUTTON_RIGHT)
 	{
 		if (infos->map[x][y].flag == true)
 			infos->map[x][y].flag = false, infos->flags++;
@@ -161,7 +165,7 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int value)
 			infos->map[x][y].flag = true, infos->flags--;
 	}
 
-	if (value == 2)
+	if (event == SDL_MOUSEMOTION)
 	{
 		if (infos->map[x][y].discovered == false)
 			infos->xHighLight = x, infos->yHighLight = y;
@@ -185,14 +189,14 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 			int y = translateCoords(infos, event->button.x, event->button.y, 1);
 
 			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT)
-				reactEvent(infos, x, y, 0);
+				reactEvent(infos, x, y, SDL_BUTTON_LEFT);
 
 			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_RIGHT \
 				&& infos->map[x][y].discovered == false)
-				reactEvent(infos, x, y, 1);
+				reactEvent(infos, x, y, SDL_BUTTON_RIGHT);
 
 			if (event->type == SDL_MOUSEMOTION)
-				reactEvent(infos, x, y, 2);
+				reactEvent(infos, x, y, SDL_MOUSEMOTION);
 		}
 	}
 
