@@ -31,6 +31,8 @@ void	discoverZone(tInfos* infos, const int x, const int y)
 					if (infos->map[newX][newY].discovered == false
 						&& infos->map[newX][newY].bomb == false)
 					{
+						if (infos->map[newX][newY].flag == true)
+							infos->flags++;
 						infos->map[newX][newY].discovered = true;
 
 						if (infos->map[newX][newY].value == 0)
@@ -78,6 +80,9 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 
 			infos->over = true;
 			infos->finalTime = getTime();
+
+			infos->xHighLight = -1;
+			infos->yHighLight = -1;
 
 			printf("%sYou lost the game.%s\n", RED, COLOR_E);
 			printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);

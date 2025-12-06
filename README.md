@@ -2,6 +2,8 @@
 
 ### « A stressful job »
 
+![project-preview](preview.png)
+
 <br/>
 
 The project is written for Linux. You need the following package (SDL2):

@@ -5,7 +5,7 @@ void	generateMap(tInfos* infos, const int xAvoid, const int yAvoid)
 	int value1 = getRandomNumber() % infos->height;
 	int	value2 = getRandomNumber() % infos->width;
 
-	for (int i = infos->bombs; i != 0; i--)
+	for (int i = 0; i != infos->bombs; i++)
 	{
 		while (infos->map[value1][value2].bomb == true
 			|| (value1 == xAvoid && value2 == yAvoid))

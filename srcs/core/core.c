@@ -42,6 +42,9 @@ void	startGame(tInfos* infos)
 			infos->over = true;
 			infos->finalTime = getTime();
 
+			infos->xHighLight = -1;
+			infos->yHighLight = -1;
+
 			printf("%sYou won the game! 🎉%s\n", GREEN, COLOR_E);
 			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
 		}
