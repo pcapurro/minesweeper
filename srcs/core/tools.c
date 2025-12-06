@@ -75,27 +75,24 @@ int	getBombsNumber(tInfos* infos, const int i, const int k)
 {
 	int	value = 0;
 
-	if (infos->map[i][k].bomb == true)
-		value++;
-
-	if (i != 0 && infos->map[i - 1][k].bomb == true)
+	if (i > 0 && infos->map[i - 1][k].bomb == true)
 		value++;
 	if (infos->map[i + 1] != NULL && infos->map[i + 1][k].bomb == true)
 		value++;
 
-	if (k != 0 && infos->map[i][k - 1].bomb == true)
+	if (k > 0 && infos->map[i][k - 1].bomb == true)
 		value++;
-	if (k + 1 != infos->width && infos->map[i][k + 1].bomb == true)
-		value++;
-
-	if (i != 0 && k != 0 && infos->map[i - 1][k - 1].bomb == true)
-		value++;
-	if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].bomb == true)
+	if (k + 1 < infos->width && infos->map[i][k + 1].bomb == true)
 		value++;
 
-	if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].bomb == true)
+	if (i > 0 && k > 0 && infos->map[i - 1][k - 1].bomb == true)
 		value++;
-	if (infos->map[i + 1] != NULL && k + 1 != infos->width && infos->map[i + 1][k + 1].bomb == true)
+	if (i > 0 && k + 1 < infos->width && infos->map[i - 1][k + 1].bomb == true)
+		value++;
+
+	if (infos->map[i + 1] != NULL && k > 0 && infos->map[i + 1][k - 1].bomb == true)
+		value++;
+	if (infos->map[i + 1] != NULL && k + 1 < infos->width && infos->map[i + 1][k + 1].bomb == true)
 		value++;
 
 	return (value);

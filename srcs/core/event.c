@@ -2,75 +2,40 @@
 
 void	discoverZone(tInfos* infos, const int x, const int y)
 {
+	if (infos->map[x][y].discovered == false)
+		infos->map[x][y].discovered = true;
+
+	if (infos->map[x][y].value != 0)
+		return;
+
 	int value = 0;
+
+	int	xCoords[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+	int	yCoords[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
 	for (int i = 0; infos->map[i] != NULL; i++)
 	{
 		for (int k = 0; k != infos->width; k++)
 		{
-			if (infos->map[i][k].discovered == true && infos->map[i][k].value == 0)
+			if (infos->map[i][k].discovered == false || infos->map[i][k].value != 0)
+				continue;
+
+			for (int l = 0; l != 8; l++)
 			{
-				if (i != 0 && infos->map[i - 1][k].discovered == false && infos->map[i - 1][k].bomb == false)
-				{
-					infos->map[i - 1][k].discovered = true;
-					if (infos->map[i - 1][k].value == 0)
-						value++;
-				}
+				int newX = i + xCoords[l];
+				int newY = k + yCoords[l];
 
-				if (infos->map[i + 1] != NULL && infos->map[i + 1][k].discovered == false \
-					&& infos->map[i + 1][k].bomb == false)
+				if (newX >= 0 && newX < infos->height
+					&& newY >= 0 && newY < infos->width)
 				{
-					infos->map[i + 1][k].discovered = true;
-					if (infos->map[i + 1][k].value == 0)
-						value++;
-				}
+					if (infos->map[newX][newY].discovered == false
+						&& infos->map[newX][newY].bomb == false)
+					{
+						infos->map[newX][newY].discovered = true;
 
-				if (k != 0 && infos->map[i][k - 1].discovered == false \
-					&& infos->map[i][k - 1].bomb == false)
-				{
-					infos->map[i][k - 1].discovered = true;
-					if (infos->map[i][k - 1].value == 0)
-						value++;
-				}
-
-				if (k + 1 != infos->width && infos->map[i][k + 1].discovered == false \
-					&& infos->map[i][k + 1].bomb == false)
-				{
-					infos->map[i][k + 1].discovered = true;
-					if (infos->map[i][k + 1].value == 0)
-						value++;
-				}
-
-				if (i != 0 && k != 0 && infos->map[i - 1][k - 1].discovered == false \
-					&& infos->map[i - 1][k - 1].bomb == false)
-				{
-					infos->map[i - 1][k - 1].discovered = true;
-					if (infos->map[i - 1][k - 1].value == 0)
-						value++;
-				}
-
-				if (i != 0 && k + 1 != infos->width && infos->map[i - 1][k + 1].discovered == false \
-					&& infos->map[i - 1][k + 1].bomb == false)
-				{
-					infos->map[i - 1][k + 1].discovered = true;
-					if (infos->map[i - 1][k + 1].value == 0)
-						value++;
-				}
-
-				if (infos->map[i + 1] != NULL && k != 0 && infos->map[i + 1][k - 1].discovered == false \
-					&& infos->map[i + 1][k - 1].bomb == false)
-				{
-					infos->map[i + 1][k - 1].discovered = true;
-					if (infos->map[i + 1][k - 1].value == 0)
-						value++;
-				}
-	
-				if (infos->map[i + 1] != NULL && k + 1 != infos->width \
-					&& infos->map[i + 1][k + 1].discovered == false && infos->map[i + 1][k + 1].bomb == false)
-				{
-					infos->map[i + 1][k + 1].discovered = true;
-					if (infos->map[i + 1][k + 1].value == 0)
-						value++;
+						if (infos->map[newX][newY].value == 0)
+							value++;
+					}
 				}
 			}
 		}
@@ -92,55 +57,13 @@ void	discoverMap(tInfos* infos)
 	}
 }
 
-void	reactStartGame(tInfos* infos, const int x, const int y)
-{
-	if (infos->map[x][y].bomb == true)
-	{
-		infos->map[x][y].bomb = false;
-		infos->map[x][y].bombType = BOMB1;
-	
-		int value1 = getRandomNumber() % infos->height;
-		int	value2 = getRandomNumber() % infos->width;
-
-		while (infos->map[value1][value2].bomb == true)
-		{
-			value1 = getRandomNumber() % infos->height;
-			value2 = getRandomNumber() % infos->width;
-		}
-		infos->map[value1][value2].bomb = true;
-
-		int nb = getRandomNumber() % 3;
-
-		if (nb == 0 || nb == 1)
-			infos->map[value1][value2].bombType = BOMB1;
-		else
-			infos->map[value1][value2].bombType = BOMB2;
-	}
-	else
-		infos->map[x][y].value = 0;
-}
-
-void	reactEndGame(tInfos* infos)
-{
-	discoverMap(infos);
-
-	infos->over = true;
-	infos->finalTime = getTime();
-
-	printf("%sYou lost the game.%s\n", RED, COLOR_E);
-	printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
-}
-
 void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 {
 	if (event == SDL_BUTTON_LEFT)
 	{
-		int	value = infos->map[x][y].value;
-
 		if (infos->moves == 0)
-			reactStartGame(infos, x, y);
+			generateMap(infos, x, y);
 
-		infos->map[x][y].discovered = true;
 		infos->moves++;
 
 		if (infos->map[x][y].flag == true)
@@ -148,13 +71,18 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 
 		if (infos->over == true || infos->map[x][y].bomb == true)
 		{
-			reactEndGame(infos);
+			discoverMap(infos);
+
+			infos->over = true;
+			infos->finalTime = getTime();
+
+			printf("%sYou lost the game.%s\n", RED, COLOR_E);
+			printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
+
 			return ;
 		}
 		else
 			discoverZone(infos, x, y);
-
-		infos->map[x][y].value = value;
 	}
 
 	if (event == SDL_BUTTON_RIGHT)
@@ -205,6 +133,7 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 		&& event->button.x <= ((infos->width + 1) * 42) - 28)
 	{
 		SDL_SetCursor(infos->interactCursor);
+
 		if (event->type == SDL_MOUSEBUTTONUP)
 			resetGame(infos);
 	}

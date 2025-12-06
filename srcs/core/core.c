@@ -19,8 +19,6 @@ void	resetGame(tInfos* infos)
 		}
 	}
 
-	generateMap(infos);
-
 	SDL_SetCursor(infos->normalCursor);
 
 	infos->xHighLight = -1;
@@ -44,10 +42,7 @@ void	startGame(tInfos* infos)
 			infos->over = true;
 			infos->finalTime = getTime();
 
-			printf(GREEN);
-			printf("You won the game! 🎉\n");
-			printf(COLOR_E);
-
+			printf("%sYou won the game! 🎉%s\n", GREEN, COLOR_E);
 			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
 		}
 

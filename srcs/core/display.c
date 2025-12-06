@@ -64,7 +64,7 @@ void	drawBackground(tInfos* infos)
 void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 {
 	SDL_Rect	newObj;
-	
+
 	if (infos->map[x][y].discovered == false)
 	{
 		SDL_SetRenderDrawColor(infos->mainRenderer, 0, 0, 0, 42);
@@ -115,7 +115,8 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 		if (infos->map[x][y].value != 0)
 			texture = getTexture(infos, infos->map[x][y].value);
 
-		if (texture == NULL) {
+		if (texture == NULL)
+		{
 			SDL_SetRenderDrawColor(infos->mainRenderer, 255, 255, 255, 255);
 			SDL_RenderFillRect(infos->mainRenderer, obj);
 		}

@@ -136,7 +136,7 @@ SDL_Texture*	loadTexture(tInfos* infos, const char* path);
 
 void			initializeTextures(tInfos* infos);
 void			initializeDisplay(tInfos* infos);
-void			generateMap(tInfos* infos);
+void			generateMap(tInfos* infos, const int xAvoid, const int yAvoid);
 void			initializeMap(tInfos* infos);
 
 void			setTexturesToDefault(tInfos* infos);

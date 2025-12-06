@@ -1,13 +1,14 @@
 #include "header.h"
 
-void	generateMap(tInfos* infos)
+void	generateMap(tInfos* infos, const int xAvoid, const int yAvoid)
 {
 	int value1 = getRandomNumber() % infos->height;
 	int	value2 = getRandomNumber() % infos->width;
 
 	for (int i = infos->bombs; i != 0; i--)
 	{
-		while (infos->map[value1][value2].bomb == true)
+		while (infos->map[value1][value2].bomb == true
+			|| (value1 == xAvoid && value2 == yAvoid))
 		{
 			value1 = getRandomNumber() % infos->height;
 			value2 = getRandomNumber() % infos->width;
@@ -68,8 +69,6 @@ void	initializeMap(tInfos* infos)
 
 	infos->bombs = (infos->bombs * (infos->width * infos->height)) / 100;
 	infos->flags = infos->bombs;
-
-	generateMap(infos);
 }
 
 SDL_Texture* loadTexture(tInfos* infos, const char* path)
