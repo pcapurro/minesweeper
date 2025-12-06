@@ -61,6 +61,9 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 {
 	if (event == SDL_BUTTON_LEFT)
 	{
+		if (infos->map[x][y].flag == true)
+			return;
+
 		if (infos->moves == 0)
 			generateMap(infos, x, y);
 
