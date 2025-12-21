@@ -30,6 +30,22 @@ void	writeStr(const char* str, const int fd)
 		write(fd, &str[i], 1);
 }
 
+char*	strDup(const char* str)
+{
+	char*	newStr = NULL;
+	int		len = getLen(str);
+
+	newStr = malloc(sizeof(char) * (len + 1));
+	if (!newStr)
+		return (NULL);
+
+	for (int i = 0; str[i] != '\0'; i++)
+		newStr[i] = str[i];
+	newStr[len] = '\0';
+
+	return (newStr);
+}
+
 time_t	getTime(void)
 {
 	struct timeval	time;

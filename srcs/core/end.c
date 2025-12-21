@@ -23,27 +23,20 @@ void	endFree(tInfos* infos, const int value)
 		infos->map = NULL;
 	}
 
-	if (infos->textures.zero != NULL)
-		SDL_DestroyTexture(infos->textures.zero);
-	if (infos->textures.one != NULL)
-		SDL_DestroyTexture(infos->textures.one);
-	if (infos->textures.two != NULL)
-		SDL_DestroyTexture(infos->textures.two);
-	if (infos->textures.three != NULL)
-		SDL_DestroyTexture(infos->textures.three);
-	if (infos->textures.four != NULL)
-		SDL_DestroyTexture(infos->textures.four);
+	if (infos->path != NULL)
+		free(infos->path);
 
-	if (infos->textures.five != NULL)
-		SDL_DestroyTexture(infos->textures.five);
-	if (infos->textures.six != NULL)
-		SDL_DestroyTexture(infos->textures.six);
-	if (infos->textures.seven != NULL)
-		SDL_DestroyTexture(infos->textures.seven);
-	if (infos->textures.eight != NULL)
-		SDL_DestroyTexture(infos->textures.eight);
-	if (infos->textures.nine != NULL)
-		SDL_DestroyTexture(infos->textures.nine);
+	for (int i = 0; i != 9; i++)
+	{
+		if (infos->textures.numbersColored[i] != NULL)
+			SDL_DestroyTexture(infos->textures.numbersColored[i]);
+
+		if (infos->textures.numbers[i] != NULL)
+			SDL_DestroyTexture(infos->textures.numbers[i]);
+	}
+
+	if (infos->textures.numbers[9] != NULL)
+		SDL_DestroyTexture(infos->textures.numbers[9]);
 
 	if (infos->textures.bomb1 != NULL)
 		SDL_DestroyTexture(infos->textures.bomb1);

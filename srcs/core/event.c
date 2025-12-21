@@ -103,50 +103,70 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 
 	if (event == SDL_MOUSEMOTION)
 	{
+		infos->xHighLight = -1, infos->yHighLight = -1;
+
 		if (infos->map[x][y].discovered == false)
 			infos->xHighLight = x, infos->yHighLight = y;
-		else
-			infos->xHighLight = -1, infos->yHighLight = -1;
 	}
 }
 
 void	sortEvent(tInfos* infos, SDL_Event* event)
 {
+	int		x = -1;
+	int		y = -1;
+
+	bool	motion = false;
+	bool	click = false;
+
 	if (event->type == SDL_KEYDOWN \
 		&& event->key.keysym.sym == SDLK_RETURN)
 		resetGame(infos);
 
-	if (event->type == SDL_MOUSEBUTTONUP || event->type == SDL_MOUSEMOTION)
+	if (event->type == SDL_MOUSEMOTION)
+		motion = true;
+	else if (event->type == SDL_MOUSEBUTTONUP)
+		click = true;
+
+	if (click == true)
 	{
-		if (infos->over == false \
-			&& checkCoords(infos, event->button.x, event->button.y) == true)
+		x = event->button.x;
+		y = event->button.y;
+		
+		if (infos->over == false && checkCoords(infos, x, y) == true)
 		{
-			int x = translateCoords(infos, event->button.x, event->button.y, 0);
-			int y = translateCoords(infos, event->button.x, event->button.y, 1);
+			int	tx = translateCoords(infos, x, y, 0);
+			int	ty = translateCoords(infos, x, y, 1);
 
-			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_LEFT)
-				reactEvent(infos, x, y, SDL_BUTTON_LEFT);
-
-			if (event->type == SDL_MOUSEBUTTONUP && event->button.button == SDL_BUTTON_RIGHT \
-				&& infos->map[x][y].discovered == false)
-				reactEvent(infos, x, y, SDL_BUTTON_RIGHT);
-
-			if (event->type == SDL_MOUSEMOTION)
-				reactEvent(infos, x, y, SDL_MOUSEMOTION);
+			if (event->button.button == SDL_BUTTON_LEFT)
+				reactEvent(infos, tx, ty, SDL_BUTTON_LEFT);
+			else if (event->button.button == SDL_BUTTON_RIGHT
+				&& infos->map[tx][ty].discovered == false)
+				reactEvent(infos, tx, ty, SDL_BUTTON_RIGHT);
 		}
-	}
 
-	if (event->button.y > 9 && event->button.y <= 60 \
-		&& event->button.x >= (((infos->width + 1) * 42) - 21 - (45 * (infos->width / 16))) \
-		&& event->button.x <= ((infos->width + 1) * 42) - 28)
-	{
-		SDL_SetCursor(infos->interactCursor);
-
-		if (event->type == SDL_MOUSEBUTTONUP)
+		if (isResetZone(infos, x, y) == true)
 			resetGame(infos);
 	}
-	else
-		SDL_SetCursor(infos->normalCursor);
+	else if (motion == true)
+	{
+		x = event->motion.x;
+		y = event->motion.y;
+
+		if (infos->over == false && checkCoords(infos, x, y) == true)
+		{
+			int	tx = translateCoords(infos, x, y, 0);
+			int	ty = translateCoords(infos, x, y, 1);
+
+			reactEvent(infos, tx, ty, SDL_MOUSEMOTION);
+		}
+		else
+			infos->xHighLight = -1, infos->xHighLight = -1;
+
+		if (isResetZone(infos, x, y) == true)
+			SDL_SetCursor(infos->interactCursor);
+		else
+			SDL_SetCursor(infos->normalCursor);
+	}
 
 	displayGame(infos);
 }

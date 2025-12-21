@@ -71,18 +71,81 @@ void	initializeMap(tInfos* infos)
 	infos->flags = infos->bombs;
 }
 
-SDL_Texture* loadTexture(tInfos* infos, const char* path)
+tColor	getColor(const int value)
+{
+	tColor	color = {0, 0, 0, 255};
+
+	if (value == 1)
+		color.r = 0, color.g = 0, color.b = 255;
+	else if (value == 2)
+		color.r = 0, color.g = 128, color.b = 0;
+	else if (value == 3)
+		color.r = 255, color.g = 0, color.b = 0;
+	else if (value == 4)
+		color.r = 0, color.g = 0, color.b = 128;
+	else if (value == 5)
+		color.r = 128, color.g = 0, color.b = 0;
+	else if (value == 6)
+		color.r = 0, color.g = 128, color.b = 128;
+	else if (value == 7)
+		color.r = 0, color.g = 0, color.b = 0;
+	else if (value == 8)
+		color.r = 128, color.g = 128, color.b = 128;
+	else
+		color.r = 0, color.g = 0, color.b = 0;
+	
+	return color;
+}
+
+void	loadTextureColors(SDL_Surface* surface, const int number)
+{
+	Uint32*	pixels = (Uint32*)surface->pixels;
+	int		pixelTotal = surface->w * surface->h;
+	tColor	color = getColor(number);
+
+	for (int i = 0; i != pixelTotal; i++)
+	{
+		Uint8	r, g, b, a;
+
+		SDL_GetRGBA(pixels[i], surface->format, &r, &g, &b, &a);
+
+		if (a != 0)
+			pixels[i] = SDL_MapRGBA(surface->format, color.r, color.g, color.b, a);
+	}
+}
+
+SDL_Texture*	loadTexture(tInfos* infos, const char* path, const int number, const bool color)
 {
 	SDL_Surface*	surface = NULL;
 	SDL_Texture*	texture = NULL;
 
 	surface = SDL_LoadBMP(path);
+
 	if (surface == NULL)
 		endError(infos, 1);
 	else
 	{
-		texture = SDL_CreateTextureFromSurface(infos->mainRenderer, surface);
-		SDL_FreeSurface(surface);
+		if (number != -1 && color == true)
+		{
+			SDL_Surface*	recoloredSurface = NULL;
+
+			recoloredSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA8888, 0);
+			SDL_FreeSurface(surface);
+
+			if (recoloredSurface == NULL)
+				endError(infos, 1);
+
+			loadTextureColors(recoloredSurface, number);
+
+			texture = SDL_CreateTextureFromSurface(infos->mainRenderer, recoloredSurface);
+			SDL_FreeSurface(recoloredSurface);
+		}
+		else
+		{
+			texture = SDL_CreateTextureFromSurface(infos->mainRenderer, surface);
+			SDL_FreeSurface(surface);
+		}
+
 		if (texture == NULL)
 			endError(infos, 1);
 	}
@@ -92,33 +155,38 @@ SDL_Texture* loadTexture(tInfos* infos, const char* path)
 
 void	initializeTextures(tInfos* infos)
 {
-	infos->textures.zero = loadTexture(infos, "./materials/numbers/0.bmp");
-	infos->textures.one = loadTexture(infos, "./materials/numbers/1.bmp");
-	infos->textures.two = loadTexture(infos, "./materials/numbers/2.bmp");
-	infos->textures.three = loadTexture(infos, "./materials/numbers/3.bmp");
-	infos->textures.four = loadTexture(infos, "./materials/numbers/4.bmp");
+	infos->path = strDup("./materials/numbers/?.bmp");
 
-	infos->textures.five = loadTexture(infos, "./materials/numbers/5.bmp");
-	infos->textures.six = loadTexture(infos, "./materials/numbers/6.bmp");
-	infos->textures.seven = loadTexture(infos, "./materials/numbers/7.bmp");
-	infos->textures.eight = loadTexture(infos, "./materials/numbers/8.bmp");
-	infos->textures.nine = loadTexture(infos, "./materials/numbers/9.bmp");
+	if (infos->path == NULL)
+		endError(infos, 0);
 
-	infos->textures.bomb1 = loadTexture(infos, "./materials/icons/bomb-1.bmp");
-	infos->textures.bomb2 = loadTexture(infos, "./materials/icons/bomb-2.bmp");
+	for (int i = 0; i != 9; i++)
+	{
+		infos->path[20] = i + 48;
 
-	infos->textures.flag = loadTexture(infos, "./materials/icons/flag.bmp");
+		infos->textures.numbersColored[i] = loadTexture(infos, infos->path, i, true);
+		infos->textures.numbers[i] = loadTexture(infos, infos->path, i, false);
+	}
 
-	infos->textures.timer = loadTexture(infos, "./materials/icons/timer.bmp");
-	infos->textures.second = loadTexture(infos, "./materials/icons/second.bmp");
+	infos->path[20] = 9 + 48;
+	infos->textures.numbers[9] = loadTexture(infos, infos->path, 9, false);
 
-	infos->textures.arrow = loadTexture(infos, "./materials/icons/arrow.bmp");
+	infos->textures.bomb1 = loadTexture(infos, "./materials/icons/bomb-1.bmp", -1, false);
+	infos->textures.bomb2 = loadTexture(infos, "./materials/icons/bomb-2.bmp", -1, false);
+
+	infos->textures.flag = loadTexture(infos, "./materials/icons/flag.bmp", -1, false);
+
+	infos->textures.timer = loadTexture(infos, "./materials/icons/timer.bmp", -1, false);
+	infos->textures.second = loadTexture(infos, "./materials/icons/second.bmp", -1, false);
+
+	infos->textures.arrow = loadTexture(infos, "./materials/icons/arrow.bmp", -1, false);
 }
 
 void	initializeDisplay(tInfos* infos)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		endError(infos, 1);
+
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 	infos->mainWindow = SDL_CreateWindow("minesweeper", SDL_WINDOWPOS_CENTERED, \

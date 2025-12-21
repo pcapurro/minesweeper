@@ -41,19 +41,21 @@ struct sCell
 
 typedef struct sCell tCell;
 
+struct sColor
+{
+	int		r;
+	int		g;
+	int		b;
+
+	int		a;
+};
+
+typedef struct sColor tColor;
+
 struct sTextures
 {
-	SDL_Texture*	zero;
-	SDL_Texture*	one;
-	SDL_Texture*	two;
-	SDL_Texture*	three;
-	SDL_Texture*	four;
-
-	SDL_Texture*	five;
-	SDL_Texture*	six;
-	SDL_Texture*	seven;
-	SDL_Texture*	eight;
-	SDL_Texture*	nine;
+	SDL_Texture*	numbers[10];
+	SDL_Texture*	numbersColored[9];
 
 	SDL_Texture*	bomb1;
 	SDL_Texture*	bomb2;
@@ -75,6 +77,7 @@ struct sInfos
 	SDL_Window*		mainWindow;
 	SDL_Renderer*	mainRenderer;
 
+	char*			path;
 	tTextures		textures;
 
 	SDL_Cursor		*normalCursor;
@@ -99,6 +102,7 @@ typedef struct sInfos tInfos;
 
 int				getLen(const char* str);
 void			writeStr(const char* str, const int fd);
+char*			strDup(const char* str);
 bool			isSame(const char* str1, const char* str2);
 int				getRandomNumber(void);
 time_t			getTime(void);
@@ -129,10 +133,12 @@ void			resetGame(tInfos* infos);
 bool			isOver(tInfos* infos);
 bool			checkCoords(tInfos* infos, const int x, const int y);
 int				translateCoords(tInfos* infos, const int x, const int y, const int value);
+bool			isResetZone(tInfos* infos, const int x, const int y);
 int				getBombsNumber(tInfos* infos, const int i, const int k);
 
-SDL_Texture*	getTexture(tInfos* infos, const int value);
-SDL_Texture*	loadTexture(tInfos* infos, const char* path);
+SDL_Texture*	getTexture(tInfos* infos, const int value, const bool color);
+void			loadTextureColors(SDL_Surface* surface, const int number);
+SDL_Texture*	loadTexture(tInfos* infos, const char* path, const int number, const bool color);
 
 void			initializeTextures(tInfos* infos);
 void			initializeDisplay(tInfos* infos);

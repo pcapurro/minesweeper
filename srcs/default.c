@@ -2,17 +2,12 @@
 
 void	setTexturesToDefault(tInfos* infos)
 {
-	infos->textures.zero = NULL;
-	infos->textures.one = NULL;
-	infos->textures.two = NULL;
-	infos->textures.three = NULL;
-	infos->textures.four = NULL;
-
-	infos->textures.five = NULL;
-	infos->textures.six = NULL;
-	infos->textures.seven = NULL;
-	infos->textures.eight = NULL;
-	infos->textures.nine = NULL;
+	for (int i = 0; i != 9; i++)
+	{
+		infos->textures.numbersColored[i] = NULL;
+		infos->textures.numbers[i] = NULL;
+	}
+	infos->textures.numbers[9] = NULL;
 
 	infos->textures.bomb1 = NULL;
 	infos->textures.bomb2 = NULL;
@@ -30,8 +25,8 @@ void	setAllToDefault(tInfos* infos)
 	infos->width = 16;
 	infos->height = 16;
 
-	infos->bombs = 21;
-	infos->flags = 21;
+	infos->bombs = 16;
+	infos->flags = 16;
 
 	infos->startTime = 0;
 	infos->finalTime = 0;
@@ -44,6 +39,9 @@ void	setAllToDefault(tInfos* infos)
 
 	infos->mainWindow = NULL;
 	infos->mainRenderer = NULL;
+
+	infos->path = NULL;
+	setTexturesToDefault(infos);
 
 	infos->normalCursor = NULL;
 	infos->interactCursor = NULL;

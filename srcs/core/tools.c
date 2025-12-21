@@ -1,43 +1,35 @@
 #include "header.h"
 
-SDL_Texture*	getTexture(tInfos* infos, const int value)
+SDL_Texture*	getTexture(tInfos* infos, const int value, const bool color)
 {
-	if (value == 0)
-		return (infos->textures.zero);
-	if (value == 1)
-		return (infos->textures.one);
-	if (value == 2)
-		return (infos->textures.two);
-	if (value == 3)
-		return (infos->textures.three);
-	if (value == 4)
-		return (infos->textures.four);
+	for (int i = 0; i != 9; i++)
+	{
+		if (value == i)
+		{
+			if (color == true)
+				return (infos->textures.numbersColored[i]);
+			else
+				return (infos->textures.numbers[i]);
+		}
+	}
 
-	if (value == 5)
-		return (infos->textures.five);
-	if (value == 6)
-		return (infos->textures.six);
-	if (value == 7)
-		return (infos->textures.seven);
-	if (value == 8)
-		return (infos->textures.eight);
 	if (value == 9)
-		return (infos->textures.nine);
+		return (infos->textures.numbers[9]);
 
 	if (value == BOMB1)
 		return (infos->textures.bomb1);
-	if (value == BOMB2)
+	else if (value == BOMB2)
 		return (infos->textures.bomb2);
 
-	if (value == FLAG)
+	else if (value == FLAG)
 		return (infos->textures.flag);
 
-	if (value == TIMER)
+	else if (value == TIMER)
 		return (infos->textures.timer);
-	if (value == SECOND)
+	else if (value == SECOND)
 		return (infos->textures.second);
 
-	if (value == ARROW)
+	else if (value == ARROW)
 		return (infos->textures.arrow);
 
 	return (NULL);
@@ -69,6 +61,18 @@ bool	checkCoords(tInfos* infos, const int x, const int y)
 		return (false);
 
 	return (true);
+}
+
+bool	isResetZone(tInfos* infos, const int x, const int y)
+{
+	if (y > 9 && y <= 60)
+	{
+		if (x >= (((infos->width + 1) * 42) - 21 - (45 * (infos->width / 16))) \
+			&& x <= ((infos->width + 1) * 42) - 28)
+			return (true);
+	}
+
+	return (false);
 }
 
 int	getBombsNumber(tInfos* infos, const int i, const int k)

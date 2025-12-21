@@ -76,7 +76,7 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 
 	if (infos->map[x][y].flag == true)
 	{
-		SDL_Texture* texture = getTexture(infos, FLAG);
+		SDL_Texture* texture = getTexture(infos, FLAG, false);
 
 		newObj.w = 32 * (infos->width / 16), newObj.h = 32 * (infos->height / 16);
 
@@ -97,9 +97,9 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 		SDL_Texture* texture = NULL;
 		
 		if (infos->map[x][y].bombType == BOMB1)
-			texture = getTexture(infos, BOMB1);
+			texture = getTexture(infos, BOMB1, false);
 		else
-			texture = getTexture(infos, BOMB2);
+			texture = getTexture(infos, BOMB2, false);
 
 		newObj.w = 32 * (infos->width / 16), newObj.h = 32 * (infos->height / 16);
 
@@ -113,7 +113,7 @@ void	drawCell(tInfos* infos, SDL_Rect* obj, const int x, const int y)
 		SDL_Texture* texture = NULL;
 
 		if (infos->map[x][y].value != 0)
-			texture = getTexture(infos, infos->map[x][y].value);
+			texture = getTexture(infos, infos->map[x][y].value, true);
 
 		if (texture == NULL)
 		{
@@ -157,7 +157,7 @@ void	drawFlags(tInfos* infos)
 	SDL_Texture*	texture = NULL;
 	SDL_Rect		obj;
 
-	texture = getTexture(infos, FLAG);
+	texture = getTexture(infos, FLAG, false);
 
 	obj.x = 21;
 	obj.y = 21;
@@ -180,7 +180,7 @@ void	drawFlags(tInfos* infos)
 	for (int i = 0; nb[i] != '\0'; i++)
 	{
 		obj.x += 21;
-		texture = getTexture(infos, nb[i] - 48);
+		texture = getTexture(infos, nb[i] - 48, false);
 
 		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 	}
@@ -191,7 +191,7 @@ void	drawTimer(tInfos* infos)
 	SDL_Texture*	texture = NULL;
 	SDL_Rect		obj;
 
-	texture = getTexture(infos, TIMER);
+	texture = getTexture(infos, TIMER, false);
 
 	obj.x = 21 * 7;
 	obj.y = 20;
@@ -221,14 +221,14 @@ void	drawTimer(tInfos* infos)
 	for (int i = 0; nb[i] != '\0'; i++)
 	{
 		obj.x += 21;
-		texture = getTexture(infos, nb[i] - 48);
+		texture = getTexture(infos, nb[i] - 48, false);
 
 		SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 	}
 
 	obj.x += 25;
 	obj.y = 20;
-	texture = getTexture(infos, SECOND);
+	texture = getTexture(infos, SECOND, false);
 
 	SDL_RenderCopy(infos->mainRenderer, texture, NULL, &obj);
 }
@@ -238,7 +238,7 @@ void	drawArrow(tInfos* infos)
 	SDL_Texture*	texture = NULL;
 	SDL_Rect		obj;
 
-	texture = getTexture(infos, ARROW);
+	texture = getTexture(infos, ARROW, false);
 
 	obj.w = 50, obj.h = 50;
 
