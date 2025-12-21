@@ -70,6 +70,6 @@ void	startGame(tInfos* infos)
 
 		displayGame(infos);
 
-		usleep(250);
+		usleep(1000);
 	}
 }

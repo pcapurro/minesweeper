@@ -19,7 +19,7 @@ bool	validateArguments(const int argc, const char** argv)
 
 	if (argc == 4)
 	{
-		if (atoi(argv[3]) <= 0 || atoi(argv[3]) > 60)
+		if (atoi(argv[3]) <= 0 || atoi(argv[3]) > 20)
 			return (false);
 	}
 
