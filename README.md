@@ -28,6 +28,12 @@ Use `LMB` on the right top corner of the window to restart the game.
 
 When a game is over, you can also use `Enter`.
 
+In order to win the game, you have to discover every safe cells.  
+
 <br/>
 
-In order to win the game, you have to discover every safe cells.
+> [!NOTE]
+> The game concept and visual style are inspired by Microsoft Minesweeper, originally developed by Microsoft.  
+> This project is an independent implementation and is not affiliated or associated with Microsoft.  
+>
+> All the assets have been made by myself from scratch using GIMP software.
