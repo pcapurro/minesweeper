@@ -14,11 +14,12 @@ void	endFree(tInfos* infos, const int value)
 {
 	if (infos->map != NULL)
 	{
-		for (int i = 0; i != infos->height; i++)
+		for (int y = 0; y != infos->height; y++)
 		{
-			if (infos->map[i] != NULL)
-				free(infos->map[i]), infos->map[i] = NULL;
+			if (infos->map[y] != NULL)
+				free(infos->map[y]), infos->map[y] = NULL;
 		}
+
 		free(infos->map);
 		infos->map = NULL;
 	}

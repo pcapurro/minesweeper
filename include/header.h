@@ -132,9 +132,9 @@ void			resetGame(tInfos* infos);
 
 bool			isOver(tInfos* infos);
 bool			checkCoords(tInfos* infos, const int x, const int y);
-int				translateCoords(tInfos* infos, const int x, const int y, const int value);
+int				translateCoords(tInfos* infos, const int x, const int y, const char value);
 bool			isResetZone(tInfos* infos, const int x, const int y);
-int				getBombsNumber(tInfos* infos, const int i, const int k);
+int				getBombsNumber(tInfos* infos, const int y, const int x);
 
 SDL_Texture*	getTexture(tInfos* infos, const int value, const bool color);
 void			loadTextureColors(SDL_Surface* surface, const int number);

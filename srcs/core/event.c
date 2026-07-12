@@ -2,10 +2,10 @@
 
 void	discoverZone(tInfos* infos, const int x, const int y)
 {
-	if (infos->map[x][y].discovered == false)
-		infos->map[x][y].discovered = true;
+	if (infos->map[y][x].discovered == false)
+		infos->map[y][x].discovered = true;
 
-	if (infos->map[x][y].value != 0)
+	if (infos->map[y][x].value != 0)
 		return;
 
 	int value = 0;
@@ -13,17 +13,17 @@ void	discoverZone(tInfos* infos, const int x, const int y)
 	int	xCoords[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 	int	yCoords[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			if (infos->map[i][k].discovered == false || infos->map[i][k].value != 0)
+			if (infos->map[y][x].discovered == false || infos->map[y][x].value != 0)
 				continue;
 
 			for (int l = 0; l != 8; l++)
 			{
-				int newX = i + xCoords[l];
-				int newY = k + yCoords[l];
+				int newX = y + xCoords[l];
+				int newY = x + yCoords[l];
 
 				if (newX >= 0 && newX < infos->height
 					&& newY >= 0 && newY < infos->width)
@@ -49,12 +49,12 @@ void	discoverZone(tInfos* infos, const int x, const int y)
 
 void	discoverMap(tInfos* infos)
 {
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			if (infos->map[i][k].discovered == false)
-				infos->map[i][k].discovered = true;
+			if (infos->map[y][x].discovered == false)
+				infos->map[y][x].discovered = true;
 		}
 	}
 }
@@ -63,7 +63,7 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 {
 	if (event == SDL_BUTTON_LEFT)
 	{
-		if (infos->map[x][y].flag == true)
+		if (infos->map[y][x].flag == true)
 			return;
 
 		if (infos->moves == 0)
@@ -71,10 +71,10 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 
 		infos->moves++;
 
-		if (infos->map[x][y].flag == true)
-			infos->map[x][y].flag = false, infos->flags++;
+		if (infos->map[y][x].flag == true)
+			infos->map[y][x].flag = false, infos->flags++;
 
-		if (infos->over == true || infos->map[x][y].bomb == true)
+		if (infos->over == true || infos->map[y][x].bomb == true)
 		{
 			discoverMap(infos);
 
@@ -84,10 +84,12 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 			infos->xHighLight = -1;
 			infos->yHighLight = -1;
 
-			printf("%sYou lost the game.%s\n", RED, COLOR_E);
-			printf("Time: %lds.\n\n", (infos->finalTime - infos->startTime) / 1000);
+			displayGame(infos);
 
-			return ;
+			printf("%sYou lost the game.%s\n", RED, COLOR_E);
+			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
+
+			return;
 		}
 		else
 			discoverZone(infos, x, y);
@@ -95,17 +97,18 @@ void	reactEvent(tInfos* infos, const int x, const int y, const int event)
 
 	if (event == SDL_BUTTON_RIGHT)
 	{
-		if (infos->map[x][y].flag == true)
-			infos->map[x][y].flag = false, infos->flags++;
+		if (infos->map[y][x].flag == true)
+			infos->map[y][x].flag = false, infos->flags++;
+
 		else if (infos->flags > 0)
-			infos->map[x][y].flag = true, infos->flags--;
+			infos->map[y][x].flag = true, infos->flags--;
 	}
 
 	if (event == SDL_MOUSEMOTION)
 	{
 		infos->xHighLight = -1, infos->yHighLight = -1;
 
-		if (infos->map[x][y].discovered == false)
+		if (infos->map[y][x].discovered == false)
 			infos->xHighLight = x, infos->yHighLight = y;
 	}
 }
@@ -132,41 +135,41 @@ void	sortEvent(tInfos* infos, SDL_Event* event)
 		x = event->button.x;
 		y = event->button.y;
 		
-		if (infos->over == false && checkCoords(infos, x, y) == true)
-		{
-			int	tx = translateCoords(infos, x, y, 0);
-			int	ty = translateCoords(infos, x, y, 1);
-
-			if (event->button.button == SDL_BUTTON_LEFT)
-				reactEvent(infos, tx, ty, SDL_BUTTON_LEFT);
-			else if (event->button.button == SDL_BUTTON_RIGHT
-				&& infos->map[tx][ty].discovered == false)
-				reactEvent(infos, tx, ty, SDL_BUTTON_RIGHT);
-		}
-
 		if (isResetZone(infos, x, y) == true)
 			resetGame(infos);
+
+		if (infos->over == false && checkCoords(infos, x, y) == true)
+		{
+			int	tX = translateCoords(infos, x, y, 'x');
+			int	tY = translateCoords(infos, x, y, 'y');
+
+			if (event->button.button == SDL_BUTTON_LEFT)
+				reactEvent(infos, tX, tY, SDL_BUTTON_LEFT);
+			else if (event->button.button == SDL_BUTTON_RIGHT
+				&& infos->map[tY][tX].discovered == false)
+				reactEvent(infos, tX, tY, SDL_BUTTON_RIGHT);
+		}
+
 	}
-	else if (motion == true)
+	
+	if (motion == true)
 	{
 		x = event->motion.x;
 		y = event->motion.y;
-
-		if (infos->over == false && checkCoords(infos, x, y) == true)
-		{
-			int	tx = translateCoords(infos, x, y, 0);
-			int	ty = translateCoords(infos, x, y, 1);
-
-			reactEvent(infos, tx, ty, SDL_MOUSEMOTION);
-		}
-		else
-			infos->xHighLight = -1, infos->xHighLight = -1;
 
 		if (isResetZone(infos, x, y) == true)
 			SDL_SetCursor(infos->interactCursor);
 		else
 			SDL_SetCursor(infos->normalCursor);
-	}
 
-	displayGame(infos);
+		if (infos->over == false && checkCoords(infos, x, y) == true)
+		{
+			int	tX = translateCoords(infos, x, y, 'x');
+			int	tY = translateCoords(infos, x, y, 'y');
+
+			reactEvent(infos, tX, tY, SDL_MOUSEMOTION);
+		}
+		else if (infos->xHighLight != -1 || infos->yHighLight != -1)
+			infos->xHighLight = -1, infos->xHighLight = -1;
+	}
 }

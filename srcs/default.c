@@ -7,6 +7,7 @@ void	setTexturesToDefault(tInfos* infos)
 		infos->textures.numbersColored[i] = NULL;
 		infos->textures.numbers[i] = NULL;
 	}
+
 	infos->textures.numbers[9] = NULL;
 
 	infos->textures.bomb1 = NULL;
@@ -41,6 +42,7 @@ void	setAllToDefault(tInfos* infos)
 	infos->mainRenderer = NULL;
 
 	infos->path = NULL;
+
 	setTexturesToDefault(infos);
 
 	infos->normalCursor = NULL;

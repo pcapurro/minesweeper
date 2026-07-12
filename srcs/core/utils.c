@@ -7,21 +7,21 @@ int	getLen(const char* str)
 	for (int i = 0; str[i] != '\0'; i++)
 		len++;
 
-	return (len);
+	return len;
 }
 
 bool	isSame(const char* str1, const char* str2)
 {
 	if (getLen(str1) != getLen(str2))
-		return (false);
+		return false;
 
 	for (int i = 0; str1[i] != '\0'; i++)
 	{
 		if (str1[i] != str2[i])
-			return (false);
+			return false;
 	}
 
-	return (true);
+	return true;
 }
 
 void	writeStr(const char* str, const int fd)
@@ -36,14 +36,16 @@ char*	strDup(const char* str)
 	int		len = getLen(str);
 
 	newStr = malloc(sizeof(char) * (len + 1));
+
 	if (!newStr)
-		return (NULL);
+		return NULL;
 
 	for (int i = 0; str[i] != '\0'; i++)
 		newStr[i] = str[i];
+
 	newStr[len] = '\0';
 
-	return (newStr);
+	return newStr;
 }
 
 time_t	getTime(void)
@@ -54,7 +56,7 @@ time_t	getTime(void)
 	gettimeofday(&time, NULL);
 	value = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 
-	return (value);
+	return value;
 }
 
 int		getRandomNumber(void)
@@ -64,5 +66,5 @@ int		getRandomNumber(void)
 	gettimeofday(&time, NULL);
 	srand(time.tv_usec);
 
-	return (rand());
+	return rand();
 }

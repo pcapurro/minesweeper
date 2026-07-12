@@ -5,17 +5,17 @@ void	resetGame(tInfos* infos)
 	infos->over = false;
 	infos->moves = 0;
 
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			infos->map[i][k].bomb = false;
-			infos->map[i][k].bombType = BOMB1;
+			infos->map[y][x].bomb = false;
+			infos->map[y][x].bombType = BOMB1;
 
-			infos->map[i][k].value = 0;
+			infos->map[y][x].value = 0;
 
-			infos->map[i][k].discovered = false;
-			infos->map[i][k].flag = false;
+			infos->map[y][x].discovered = false;
+			infos->map[y][x].flag = false;
 		}
 	}
 
@@ -45,6 +45,8 @@ void	startGame(tInfos* infos)
 			infos->xHighLight = -1;
 			infos->yHighLight = -1;
 
+			displayGame(infos);
+
 			printf("%sYou won the game! 🎉%s\n", GREEN, COLOR_E);
 			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
 		}
@@ -53,7 +55,7 @@ void	startGame(tInfos* infos)
 		{
 			if (event.type == SDL_QUIT \
 				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
-				return ;
+				return;
 
 			x = event.button.x;
 			y = event.button.y;
@@ -68,8 +70,9 @@ void	startGame(tInfos* infos)
 			sortEvent(infos, &event);
 		}
 
-		displayGame(infos);
+		if (infos->over == false)
+			displayGame(infos);
 
-		usleep(1000);
+		SDL_Delay(1);
 	}
 }

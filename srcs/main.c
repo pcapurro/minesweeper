@@ -9,21 +9,21 @@ void	errorArguments(void)
 bool	validateArguments(const int argc, const char** argv)
 {
 	if (argc != 3 && argc != 4)
-		return (false);
+		return false;
 
 	if (atoi(argv[1]) < 16 || atoi(argv[1]) > 21)
-		return (false);
+		return false;
 
 	if (atoi(argv[2]) < 16 || atoi(argv[2]) > 21)
-		return (false);
+		return false;
 
 	if (argc == 4)
 	{
 		if (atoi(argv[3]) <= 0 || atoi(argv[3]) > 20)
-			return (false);
+			return false;
 	}
 
-	return (true);
+	return true;
 }
 
 int	main(const int argc, const char** argv)
@@ -53,5 +53,5 @@ int	main(const int argc, const char** argv)
 
 	endFree(&infos, 0);
 
-	return (0);
+	return 0;
 }

@@ -7,60 +7,60 @@ SDL_Texture*	getTexture(tInfos* infos, const int value, const bool color)
 		if (value == i)
 		{
 			if (color == true)
-				return (infos->textures.numbersColored[i]);
+				return infos->textures.numbersColored[i];
 			else
-				return (infos->textures.numbers[i]);
+				return infos->textures.numbers[i];
 		}
 	}
 
 	if (value == 9)
-		return (infos->textures.numbers[9]);
+		return infos->textures.numbers[9];
 
 	if (value == BOMB1)
-		return (infos->textures.bomb1);
+		return infos->textures.bomb1;
 	else if (value == BOMB2)
-		return (infos->textures.bomb2);
+		return infos->textures.bomb2;
 
 	else if (value == FLAG)
-		return (infos->textures.flag);
+		return infos->textures.flag;
 
 	else if (value == TIMER)
-		return (infos->textures.timer);
+		return infos->textures.timer;
 	else if (value == SECOND)
-		return (infos->textures.second);
+		return infos->textures.second;
 
 	else if (value == ARROW)
-		return (infos->textures.arrow);
+		return infos->textures.arrow;
 
-	return (NULL);
+	return NULL;
 }
 
 bool	isOver(tInfos* infos)
 {
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			if (infos->map[i][k].discovered == false && infos->map[i][k].bomb == false)
-				return (false);
+			if (infos->map[y][x].discovered == false && infos->map[y][x].bomb == false)
+				return false;
 		}
 	}
 
 	if (infos->flags != 0)
-		return (false);
+		return false;
 
-	return (true);
+	return true;
 }
 
 bool	checkCoords(tInfos* infos, const int x, const int y)
 {
 	if (x < 21 || x > 21 + (infos->width * 42))
-		return (false);
+		return false;
 
 	if (y < 70 || y > 70 + (infos->height * 42))
-		return (false);
+		return false;
 
-	return (true);
+	return true;
 }
 
 bool	isResetZone(tInfos* infos, const int x, const int y)
@@ -72,37 +72,37 @@ bool	isResetZone(tInfos* infos, const int x, const int y)
 			return (true);
 	}
 
-	return (false);
+	return false;
 }
 
-int	getBombsNumber(tInfos* infos, const int i, const int k)
+int	getBombsNumber(tInfos* infos, const int y, const int x)
 {
 	int	value = 0;
 
-	if (i > 0 && infos->map[i - 1][k].bomb == true)
+	if (y > 0 && infos->map[y - 1][x].bomb == true)
 		value++;
-	if (infos->map[i + 1] != NULL && infos->map[i + 1][k].bomb == true)
-		value++;
-
-	if (k > 0 && infos->map[i][k - 1].bomb == true)
-		value++;
-	if (k + 1 < infos->width && infos->map[i][k + 1].bomb == true)
+	if (infos->map[y + 1] != NULL && infos->map[y + 1][x].bomb == true)
 		value++;
 
-	if (i > 0 && k > 0 && infos->map[i - 1][k - 1].bomb == true)
+	if (x > 0 && infos->map[y][x - 1].bomb == true)
 		value++;
-	if (i > 0 && k + 1 < infos->width && infos->map[i - 1][k + 1].bomb == true)
-		value++;
-
-	if (infos->map[i + 1] != NULL && k > 0 && infos->map[i + 1][k - 1].bomb == true)
-		value++;
-	if (infos->map[i + 1] != NULL && k + 1 < infos->width && infos->map[i + 1][k + 1].bomb == true)
+	if (x + 1 < infos->width && infos->map[y][x + 1].bomb == true)
 		value++;
 
-	return (value);
+	if (y > 0 && x > 0 && infos->map[y - 1][x - 1].bomb == true)
+		value++;
+	if (y > 0 && x + 1 < infos->width && infos->map[y - 1][x + 1].bomb == true)
+		value++;
+
+	if (infos->map[y + 1] != NULL && x > 0 && infos->map[y + 1][x - 1].bomb == true)
+		value++;
+	if (infos->map[y + 1] != NULL && x + 1 < infos->width && infos->map[y + 1][x + 1].bomb == true)
+		value++;
+
+	return value;
 }
 
-int		translateCoords(tInfos* infos, const int x, const int y, const int value)
+int		translateCoords(tInfos* infos, const int tX, const int tY, const char value)
 {
 	int		actualX, actualY;
 	int		actualW, actualH;
@@ -110,28 +110,30 @@ int		translateCoords(tInfos* infos, const int x, const int y, const int value)
 	actualX = 21;
 	actualY = 70;
 
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
 			actualW = (infos->width * 42) / infos->width;
 			actualH = (infos->height * 42) / infos->height;
 
-			actualX = 21 + (k * actualW);
+			actualX = 21 + (x * actualW);
 
-			if (x >= actualX && x <= actualX + actualW)
+			if (tX >= actualX && tX <= actualX + actualW)
 			{
-				if (y >= actualY && y <= actualY + actualH)
+				if (tY >= actualY && tY <= actualY + actualH)
 				{
-					if (value == 0)
-						return (i);
-					else
-						return (k);
+					if (value == 'x')
+						return x;
+
+					if (value == 'y')
+						return y;
 				}
 			}
 		}
-		actualY = 70 + ((i + 1) * actualH);
+
+		actualY = 70 + ((y + 1) * actualH);
 	}
 
-	return (0);
+	return 0;
 }

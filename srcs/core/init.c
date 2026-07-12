@@ -2,33 +2,34 @@
 
 void	generateMap(tInfos* infos, const int xAvoid, const int yAvoid)
 {
-	int value1 = getRandomNumber() % infos->height;
-	int	value2 = getRandomNumber() % infos->width;
+	int newY = getRandomNumber() % infos->height;
+	int	newX = getRandomNumber() % infos->width;
 
 	for (int i = 0; i != infos->bombs; i++)
 	{
-		while (infos->map[value1][value2].bomb == true
-			|| (value1 == xAvoid && value2 == yAvoid))
+		while (infos->map[newY][newX].bomb == true
+			|| (newY >= yAvoid - 1 && newY <= yAvoid + 1
+				&& newX >= xAvoid - 1 && newX <= xAvoid + 1))
 		{
-			value1 = getRandomNumber() % infos->height;
-			value2 = getRandomNumber() % infos->width;
+			newY = getRandomNumber() % infos->height;
+			newX = getRandomNumber() % infos->width;
 		}
 
-		infos->map[value1][value2].bomb = true;
+		infos->map[newY][newX].bomb = true;
 
 		int nb = getRandomNumber() % 3;
 		if (nb == 0 || nb == 1)
-			infos->map[value1][value2].bombType = BOMB1;
+			infos->map[newY][newX].bombType = BOMB1;
 		else
-			infos->map[value1][value2].bombType = BOMB2;
+			infos->map[newY][newX].bombType = BOMB2;
 	}
 
-	for (int i = 0; infos->map[i] != NULL; i++)
+	for (int y = 0; infos->map[y] != NULL; y++)
 	{
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			if (infos->map[i][k].bomb != true)
-				infos->map[i][k].value = getBombsNumber(infos, i, k);
+			if (infos->map[y][x].bomb != true)
+				infos->map[y][x].value = getBombsNumber(infos, y, x);
 		}
 	}
 }
@@ -36,34 +37,38 @@ void	generateMap(tInfos* infos, const int xAvoid, const int yAvoid)
 void	initializeMap(tInfos* infos)
 {
 	infos->map = malloc(sizeof(tCell*) * (infos->height + 1));
+
 	if (!infos->map)
 		endError(infos, 2);
-	for (int i = 0; i != infos->height + 1; i++)
-		infos->map[i] = NULL;
 
-	for (int i = 0; i != infos->height; i++)
+	for (int y = 0; y != infos->height + 1; y++)
+		infos->map[y] = NULL;
+
+	for (int y = 0; y != infos->height; y++)
 	{
-		infos->map[i] = malloc(sizeof(tCell) * (infos->width));
-		if (!infos->map[i])
+		infos->map[y] = malloc(sizeof(tCell) * (infos->width));
+
+		if (!infos->map[y])
 		{
-			infos->map[i] = NULL;
-			for (int k = i - 1; k != -1; k--)
+			infos->map[y] = NULL;
+
+			for (int x = y - 1; x != -1; x--)
 			{
-				if (infos->map[i] != NULL)
-					free(infos->map[i]), infos->map[i] = NULL;
+				if (infos->map[y] != NULL)
+					free(infos->map[y]), infos->map[y] = NULL;
 			}
 			endError(infos, 2);
 		}
 
-		for (int k = 0; k != infos->width; k++)
+		for (int x = 0; x != infos->width; x++)
 		{
-			infos->map[i][k].discovered = false;
-			infos->map[i][k].flag = false;
+			infos->map[y][x].discovered = false;
+			infos->map[y][x].flag = false;
 
-			infos->map[i][k].bomb = false;
-			infos->map[i][k].bombType = BOMB1;
+			infos->map[y][x].bomb = false;
+			infos->map[y][x].bombType = BOMB1;
 
-			infos->map[i][k].value = 0;
+			infos->map[y][x].value = 0;
 		}
 	}
 
@@ -150,7 +155,7 @@ SDL_Texture*	loadTexture(tInfos* infos, const char* path, const int number, cons
 			endError(infos, 1);
 	}
 
-	return (texture);
+	return texture;
 }
 
 void	initializeTextures(tInfos* infos)

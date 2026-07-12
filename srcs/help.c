@@ -12,11 +12,11 @@ bool	isHelp(const char** argv)
 	for (int i = 0; argv[i] != NULL; i++)
 	{
 		if (isSame(argv[i], "-h") == true)
-			return (true);
+			return true;
 
 		if (isSame(argv[i], "--help") == true)
-			return (true);
+			return true;
 	}
 
-	return (false);
+	return false;
 }
