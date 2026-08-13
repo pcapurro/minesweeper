@@ -51,7 +51,7 @@ void	startGame(tInfos* infos)
 			printf("Time: %lds.\n", (infos->finalTime - infos->startTime) / 1000);
 		}
 
-		if (SDL_PollEvent(&event) == true)
+		if (SDL_WaitEventTimeout(&event, 1000) == true)
 		{
 			if (event.type == SDL_QUIT \
 				|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
@@ -64,7 +64,16 @@ void	startGame(tInfos* infos)
 				|| event.type == SDL_MOUSEBUTTONUP)
 			{
 				if (x > (infos->width + 1) * 42 || y > (infos->height + 2) * 42 || x < 0 || y < 0)
-					continue ;
+					continue;
+
+				if (event.type == SDL_MOUSEMOTION && infos->xHighLight != -1 && infos->yHighLight != -1)
+				{
+					int		tX = translateCoords(infos, x, y, 'x');
+					int		tY = translateCoords(infos, x, y, 'y');
+
+					if (tX == infos->xHighLight && tY == infos->yHighLight)
+						continue;
+				}
 			}
 
 			sortEvent(infos, &event);
