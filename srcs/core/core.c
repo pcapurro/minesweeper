@@ -31,6 +31,7 @@ void	resetGame(tInfos* infos)
 void	startGame(tInfos* infos)
 {
 	int			x = 0, y = 0;
+	time_t		lastDisplay = 0;
 	SDL_Event	event;
 
 	infos->startTime = getTime();
@@ -66,7 +67,8 @@ void	startGame(tInfos* infos)
 				if (x > (infos->width + 1) * 42 || y > (infos->height + 2) * 42 || x < 0 || y < 0)
 					continue;
 
-				if (event.type == SDL_MOUSEMOTION && infos->xHighLight != -1 && infos->yHighLight != -1)
+				if (event.type == SDL_MOUSEMOTION && getTime() - lastDisplay < 1000 \
+					&& infos->xHighLight != -1 && infos->yHighLight != -1)
 				{
 					int		tX = translateCoords(infos, x, y, 'x');
 					int		tY = translateCoords(infos, x, y, 'y');
@@ -80,7 +82,10 @@ void	startGame(tInfos* infos)
 		}
 
 		if (infos->over == false)
+		{
 			displayGame(infos);
+			lastDisplay = getTime();
+		}
 
 		SDL_Delay(1);
 	}
